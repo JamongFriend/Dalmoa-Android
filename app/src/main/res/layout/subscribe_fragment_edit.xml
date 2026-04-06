@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tv_edit_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="구독 정보 수정"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_edit_service_name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:hint="서비스 이름"
+            app:layout_constraintTop_toBottomOf="@id/tv_edit_title">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_edit_service_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_edit_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/til_edit_service_name">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="결제 금액">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_edit_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/toggle_edit_currency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                app:singleSelection="true">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_edit_currency_krw"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="70dp"
+                    android:layout_height="54dp"
+                    android:text="KRW"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_edit_currency_usd"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="70dp"
+                    android:layout_height="54dp"
+                    android:text="USD"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_edit_category"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="카테고리 수정"
+            app:layout_constraintTop_toBottomOf="@id/layout_edit_price">
+            <AutoCompleteTextView
+                android:id="@+id/spinner_edit_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_edit_payment_date"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="결제일 수정 (매달 몇 일?)"
+            app:layout_constraintTop_toBottomOf="@id/til_edit_category">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_edit_payment_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_update_subscribe"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:text="수정 완료하기"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/til_edit_payment_date" />
+
+        <Button
+            android:id="@+id/btn_delete_subscribe"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="이 구독 삭제하기"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_update_subscribe" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

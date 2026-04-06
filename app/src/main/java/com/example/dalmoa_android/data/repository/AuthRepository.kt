@@ -1,10 +1,11 @@
 package com.example.chatzar_android.data.repository
 
-import com.example.chatzar_android.data.remote.api.AuthApi
+
 import com.example.chatzar_android.data.remote.dto.LoginRequest
 import com.example.chatzar_android.data.remote.dto.LoginResponse
 import com.example.chatzar_android.data.remote.dto.SignupRequest
 import com.example.chatzar_android.data.remote.dto.SignupResponse
+import com.example.dalmoa_android.data.remote.api.AuthApi
 import retrofit2.Response
 
 class AuthRepository (
