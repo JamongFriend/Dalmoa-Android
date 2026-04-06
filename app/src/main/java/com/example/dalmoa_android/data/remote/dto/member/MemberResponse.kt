@@ -1,0 +1,7 @@
+package com.example.dalmoa_android.data.remote.dto.member
+
+data class MemberResponse(
+    val id: Long,
+    val email: String,
+    val nickname: String
+)
