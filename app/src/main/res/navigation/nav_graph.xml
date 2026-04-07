@@ -15,41 +15,31 @@
             app:destination="@id/signupFragment" />
         <action
             android:id="@+id/action_login_to_dashboard"
-            app:destination="@id/dashboardFragment"
+            app:destination="@id/myPageFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.example.dalmoa_android.feature.auth.SignupFragment"
+        android:name="com.example.chatzar_android.feature.auth.signup.SignupFragment"
         android:label="회원가입"
         tools:layout="@layout/auth_fragment_signup" />
 
     <fragment
-        android:id="@+id/dashboardFragment"
-        android:name="com.example.dalmoa_android.feature.main.DashboardFragment"
-        android:label="대시보드"
-        tools:layout="@layout/main_fragment_dashboard">
+        android:id="@+id/myPageFragment"
+        android:name="com.example.chatzar_android.feature.auth.profile.MyPageFragment"
+        android:label="마이페이지"
+        tools:layout="@layout/member_fragment_profile">
         <action
-            android:id="@+id/action_dashboard_to_list"
-            app:destination="@id/subscribeListFragment" />
+            android:id="@+id/action_myPage_to_profileEdit"
+            app:destination="@id/profileEditFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/subscribeListFragment"
-        android:name="com.example.dalmoa_android.feature.subscribe.ListFragment"
-        android:label="구독 목록"
-        tools:layout="@layout/subscribe_fragment_list">
-        <action
-            android:id="@+id/action_list_to_add"
-            app:destination="@id/addFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/addFragment"
-        android:name="com.example.dalmoa_android.feature.subscribe.AddFragment"
-        android:label="구독 추가"
-        tools:layout="@layout/subscribe_fragment_add" />
+        android:id="@+id/profileEditFragment"
+        android:name="com.example.chatzar_android.feature.auth.profile.ProfileEditFragment"
+        android:label="프로필 수정"
+        tools:layout="@layout/member_fragment_profile_edit" />
 
 </navigation>
