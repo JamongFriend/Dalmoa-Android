@@ -1,9 +1,7 @@
-package com.example.chatzar_android.data.remote.dto
+package com.example.dalmoa_android.data.remote.dto
 
-data class SignupRequest(
-    val name: String,
+data class SignUpRequest(
     val email: String,
-    val password: String,
-    val nickname: String,
-    val age: Long
+    val name: String,
+    val password: String
 )

@@ -1,11 +1,11 @@
-package com.example.chatzar_android.core.network
+package com.example.dalmoa_android.core
 
 import android.content.Context
 import android.content.SharedPreferences
 
 class TokenManager(context: Context) {
     private val prefs: SharedPreferences =
-        context.getSharedPreferences("chatzar_prefs", Context.MODE_PRIVATE)
+        context.getSharedPreferences("dalmoa_prefs", Context.MODE_PRIVATE)
 
     companion object {
         private const val ACCESS_TOKEN = "access_token"

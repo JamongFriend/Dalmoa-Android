@@ -1,9 +1,9 @@
-package com.example.chatzar_android.feature.auth.signup
+package com.example.dalmoa_android.feature.auth.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.chatzar_android.data.remote.dto.SignupRequest
-import com.example.chatzar_android.data.repository.AuthRepository
+import com.example.dalmoa_android.data.remote.dto.SignUpRequest
+import com.example.dalmoa_android.data.repository.AuthRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ class SignupViewModel(private val repository: AuthRepository) : ViewModel() {
     private val _state = MutableStateFlow<SignupUiState>(SignupUiState.Idle)
     val state: StateFlow<SignupUiState> = _state
 
-    fun signup(request: SignupRequest) {
+    fun signup(request: SignUpRequest) {
         viewModelScope.launch {
             _state.value = SignupUiState.Loading
             try {

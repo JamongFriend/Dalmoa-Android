@@ -1,11 +1,11 @@
-package com.example.chatzar_android.feature.auth.profile
+package com.example.dalmoa_android.feature.auth.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.chatzar_android.data.remote.dto.MemberResponse
-import com.example.chatzar_android.data.remote.dto.ProfileUpdateRequest
-import com.example.chatzar_android.data.repository.MemberRepository
+import com.example.dalmoa_android.data.remote.dto.member.MemberResponse
+import com.example.dalmoa_android.data.remote.dto.ProfileUpdateRequest
+import com.example.dalmoa_android.data.repository.MemberRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -43,7 +43,7 @@ class ProfileEditViewModel(private val repository: MemberRepository) : ViewModel
         viewModelScope.launch {
             _state.value = ProfileEditUiState.Loading
             try {
-                val request = ProfileUpdateRequest(nickname)
+                val request = ProfileUpdateRequest(name = nickname)
                 val response = repository.updateMember(memberId, request)
                 if (response.isSuccessful) {
                     _state.value = ProfileEditUiState.UpdateSuccess

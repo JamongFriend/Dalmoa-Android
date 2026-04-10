@@ -1,4 +1,4 @@
-package com.example.dalmoa_android.feature.auth
+package com.example.dalmoa_android.feature.auth.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.chatzar_android.core.network.ApiClient
-import com.example.chatzar_android.core.network.TokenManager
-import com.example.chatzar_android.data.repository.AuthRepository
-import com.example.chatzar_android.feature.auth.login.LoginUiState
-import com.example.chatzar_android.feature.auth.login.LoginViewModel
-import com.example.chatzar_android.feature.auth.login.LoginViewModelFactory
+import com.example.dalmoa_android.core.ApiClient
+import com.example.dalmoa_android.core.TokenManager
+import com.example.dalmoa_android.data.repository.AuthRepository
 import com.example.dalmoa_android.R
 import com.example.dalmoa_android.data.remote.api.AuthApi
 import com.example.dalmoa_android.databinding.AuthFragmentLoginBinding
@@ -38,6 +35,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 1. 초기화 (dalmoa 패키지 기준)
+        ApiClient.init(requireContext())
         tokenManager = TokenManager(requireContext())
         val authApi = ApiClient.retrofit.create(AuthApi::class.java)
         val repo = AuthRepository(authApi)
@@ -50,23 +48,23 @@ class LoginFragment : Fragment() {
             vm.login(email, password)
         }
 
-        // 3. 회원가입 이동 (dalmoa용 액션 ID: action_login_to_signup)
+        // 3. 회원가입 이동 (dalmoa 액션 ID: action_login_to_signup)
         binding.tvGoSignup.setOnClickListener {
             findNavController().navigate(R.id.action_login_to_signup)
         }
 
-        // 4. 로그인 상태 관찰 및 화면 이동
+        // 4. 로그인 상태 관리 및 화면 이동
         viewLifecycleOwner.lifecycleScope.launch {
             vm.state.collect { state ->
                 when (state) {
                     is LoginUiState.Loading -> {
-                        Toast.makeText(requireContext(), "로그인 중...", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "로그인 중..", Toast.LENGTH_SHORT).show()
                     }
                     is LoginUiState.Success -> {
                         state.data.accessToken?.let { tokenManager.saveToken(it) }
                         tokenManager.saveMemberId(state.data.memberId)
 
-                        Toast.makeText(requireContext(), "환영합니다!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "환영합니다", Toast.LENGTH_SHORT).show()
 
                         findNavController().navigate(R.id.action_login_to_dashboard)
                     }

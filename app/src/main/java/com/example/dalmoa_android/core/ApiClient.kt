@@ -1,4 +1,4 @@
-package com.example.chatzar_android.core.network
+package com.example.dalmoa_android.core
 
 import android.content.Context
 import okhttp3.OkHttpClient
@@ -11,7 +11,9 @@ object ApiClient {
     private var tokenManager: TokenManager? = null
 
     fun init(context: Context) {
-        tokenManager = TokenManager(context)
+        if (tokenManager == null) {
+            tokenManager = TokenManager(context.applicationContext)
+        }
     }
 
     private val logging = HttpLoggingInterceptor().apply {
@@ -21,7 +23,7 @@ object ApiClient {
     private val okHttp: OkHttpClient by lazy {
         OkHttpClient.Builder()
             .addInterceptor(logging)
-            .addInterceptor(AuthInterceptor(tokenManager!!)) // 인증 인터셉터 추가
+            .addInterceptor(AuthInterceptor(tokenManager ?: throw IllegalStateException("ApiClient must be initialized with init(context) before access.")))
             .build()
     }
 

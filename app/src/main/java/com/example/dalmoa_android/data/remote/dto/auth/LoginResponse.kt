@@ -1,4 +1,4 @@
-package com.example.chatzar_android.data.remote.dto
+package com.example.dalmoa_android.data.remote.dto
 
 data class LoginResponse(
     val memberId: Long,

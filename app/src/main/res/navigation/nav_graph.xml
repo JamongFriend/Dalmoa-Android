@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.dalmoa_android.feature.auth.LoginFragment"
+        android:name="com.example.dalmoa_android.feature.auth.login.LoginFragment"
         android:label="로그인"
         tools:layout="@layout/auth_fragment_login">
         <action
@@ -22,13 +22,13 @@
 
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.example.chatzar_android.feature.auth.signup.SignupFragment"
+        android:name="com.example.dalmoa_android.feature.auth.signup.SignupFragment"
         android:label="회원가입"
         tools:layout="@layout/auth_fragment_signup" />
 
     <fragment
         android:id="@+id/myPageFragment"
-        android:name="com.example.chatzar_android.feature.auth.profile.MyPageFragment"
+        android:name="com.example.dalmoa_android.feature.auth.profile.MyPageFragment"
         android:label="마이페이지"
         tools:layout="@layout/member_fragment_profile">
         <action
@@ -38,7 +38,7 @@
 
     <fragment
         android:id="@+id/profileEditFragment"
-        android:name="com.example.chatzar_android.feature.auth.profile.ProfileEditFragment"
+        android:name="com.example.dalmoa_android.feature.auth.profile.ProfileEditFragment"
         android:label="프로필 수정"
         tools:layout="@layout/member_fragment_profile_edit" />
 

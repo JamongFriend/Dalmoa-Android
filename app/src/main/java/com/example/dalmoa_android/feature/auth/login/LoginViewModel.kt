@@ -1,21 +1,19 @@
-package com.example.chatzar_android.feature.auth.login
+package com.example.dalmoa_android.feature.auth.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.chatzar_android.data.remote.dto.LoginRequest
-import com.example.chatzar_android.data.repository.AuthRepository
+import com.example.dalmoa_android.data.remote.dto.LoginRequest
+import com.example.dalmoa_android.data.repository.AuthRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
-import java.io.IOException
 
-class LoginViewModel(private val repository: AuthRepository) :ViewModel() {
+class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
     private val _state = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
     val state: StateFlow<LoginUiState> = _state
 
     fun login(email: String, password: String) {
-        if(email.isBlank() || password.isBlank()){
+        if (email.isBlank() || password.isBlank()) {
             _state.value = LoginUiState.Error("이메일/비밀번호를 입력하세요.")
             return
         }

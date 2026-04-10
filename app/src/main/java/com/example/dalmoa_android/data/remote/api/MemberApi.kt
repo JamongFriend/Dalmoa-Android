@@ -9,12 +9,12 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface MemberApi {
-    @GET("api/v1/members/{memberId}")
+    @GET("api/member/{memberId}")
     suspend fun getMember(
         @Path("memberId") memberId: Long
     ): Response<MemberResponse>
 
-    @PUT("api/v1/members/{memberId}")
+    @PUT("api/member/{memberId}")
     suspend fun updateMember(
         @Path("memberId") memberId: Long,
         @Body request: ProfileUpdateRequest

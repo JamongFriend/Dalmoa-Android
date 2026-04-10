@@ -1,4 +1,4 @@
-package com.example.chatzar_android.feature.auth.profile
+package com.example.dalmoa_android.feature.auth.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.chatzar_android.core.network.ApiClient
-import com.example.chatzar_android.core.network.TokenManager
-import com.example.chatzar_android.data.remote.api.MemberApi
-import com.example.chatzar_android.data.repository.MemberRepository
-import com.example.chatzar_android.databinding.MemberFragmentProfileEditBinding
+import com.example.dalmoa_android.R
+import com.example.dalmoa_android.core.ApiClient
+import com.example.dalmoa_android.core.TokenManager
+import com.example.dalmoa_android.data.remote.api.MemberApi
+import com.example.dalmoa_android.data.repository.MemberRepository
+import com.example.dalmoa_android.databinding.MemberFragmentProfileEditBinding
 import kotlinx.coroutines.launch
 
 class ProfileEditFragment : Fragment() {
@@ -36,6 +37,7 @@ class ProfileEditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        ApiClient.init(requireContext())
         setupViewModel()
         setupListeners()
         observeState()
@@ -59,11 +61,11 @@ class ProfileEditFragment : Fragment() {
         }
 
         binding.tvProfileEditSave.setOnClickListener {
-            val newNickname = binding.etProfileEditNickname.text.toString().trim()
-            if (newNickname.isNotEmpty()) {
-                viewModel.updateMember(currentMemberId, newNickname)
+            val newName = binding.etProfileEditNickname.text.toString().trim()
+            if (newName.isNotEmpty()) {
+                viewModel.updateMember(currentMemberId, newName)
             } else {
-                Toast.makeText(requireContext(), "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -77,7 +79,7 @@ class ProfileEditFragment : Fragment() {
                     }
                     is ProfileEditUiState.LoadSuccess -> {
                         binding.pbProfileEditLoading.visibility = View.GONE
-                        binding.etProfileEditNickname.setText(state.member.nickname)
+                        binding.etProfileEditNickname.setText(state.member.name)
                     }
                     is ProfileEditUiState.UpdateSuccess -> {
                         binding.pbProfileEditLoading.visibility = View.GONE

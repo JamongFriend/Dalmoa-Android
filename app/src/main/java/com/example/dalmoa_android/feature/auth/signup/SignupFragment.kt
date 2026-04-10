@@ -1,4 +1,4 @@
-package com.example.chatzar_android.feature.auth.signup
+package com.example.dalmoa_android.feature.auth.signup
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.chatzar_android.core.network.ApiClient
-import com.example.chatzar_android.data.remote.api.AuthApi
-import com.example.chatzar_android.data.remote.dto.SignupRequest
-import com.example.chatzar_android.data.repository.AuthRepository
-import com.example.chatzar_android.databinding.AuthFragmentSignupBinding
+import com.example.dalmoa_android.core.ApiClient
+import com.example.dalmoa_android.data.remote.api.AuthApi
+import com.example.dalmoa_android.data.remote.dto.SignUpRequest
+import com.example.dalmoa_android.data.repository.AuthRepository
+import com.example.dalmoa_android.databinding.AuthFragmentSignupBinding
 import kotlinx.coroutines.launch
 
 class SignupFragment : Fragment() {
@@ -33,6 +33,7 @@ class SignupFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        ApiClient.init(requireContext())
         val authApi = ApiClient.retrofit.create(AuthApi::class.java)
         val repo = AuthRepository(authApi)
         val factory = SignupViewModelFactory(repo)
@@ -48,13 +49,11 @@ class SignupFragment : Fragment() {
         }
 
         binding.btnSignup.setOnClickListener {
-            val name = binding.etSignupName.text.toString()
-            val ageString = binding.etSignupAge.text.toString()
-            val email = binding.etSignupEmail.text.toString()
-            val nickname = binding.etSignupNickname.text.toString()
-            val password = binding.etSignupPassword.text.toString()
+            val name = binding.etSignupName.text.toString().trim()
+            val email = binding.etSignupEmail.text.toString().trim()
+            val password = binding.etSignupPassword.text.toString().trim()
 
-            if (name.isBlank() || ageString.isBlank() || email.isBlank() || nickname.isBlank() || password.isBlank()) {
+            if (name.isBlank() || email.isBlank() || password.isBlank()) {
                 Toast.makeText(requireContext(), "모든 필드를 입력해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -64,13 +63,10 @@ class SignupFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            val age = ageString.toLongOrNull() ?: 0L
-            val request = SignupRequest(
-                name = name,
+            val request = SignUpRequest(
                 email = email,
-                password = password,
-                nickname = nickname,
-                age = age
+                name = name,
+                password = password
             )
             viewModel.signup(request)
         }
@@ -82,7 +78,7 @@ class SignupFragment : Fragment() {
                 when (state) {
                     is SignupUiState.Idle -> Unit
                     is SignupUiState.Loading -> {
-                        Toast.makeText(requireContext(), "회원가입 중...", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "회원가입 중..", Toast.LENGTH_SHORT).show()
                     }
                     is SignupUiState.Success -> {
                         Toast.makeText(requireContext(), "회원가입 성공! 로그인해주세요.", Toast.LENGTH_SHORT).show()

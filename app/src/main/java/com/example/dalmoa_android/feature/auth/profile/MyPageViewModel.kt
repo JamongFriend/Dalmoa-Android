@@ -1,10 +1,10 @@
-package com.example.chatzar_android.feature.auth.profile
+package com.example.dalmoa_android.feature.auth.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.chatzar_android.data.remote.dto.MemberResponse
-import com.example.chatzar_android.data.repository.MemberRepository
+import com.example.dalmoa_android.data.remote.dto.member.MemberResponse
+import com.example.dalmoa_android.data.repository.MemberRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch

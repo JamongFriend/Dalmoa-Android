@@ -1,8 +1,8 @@
-package com.example.chatzar_android.data.repository
+package com.example.dalmoa_android.data.repository
 
-import com.example.chatzar_android.data.remote.api.MemberApi
-import com.example.chatzar_android.data.remote.dto.MemberResponse
-import com.example.chatzar_android.data.remote.dto.ProfileUpdateRequest
+import com.example.dalmoa_android.data.remote.api.MemberApi
+import com.example.dalmoa_android.data.remote.dto.ProfileUpdateRequest
+import com.example.dalmoa_android.data.remote.dto.member.MemberResponse
 import retrofit2.Response
 
 class MemberRepository(private val memberApi: MemberApi) {

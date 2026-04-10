@@ -1,4 +1,4 @@
-package com.example.chatzar_android.core.network
+package com.example.dalmoa_android.core
 
 import okhttp3.Interceptor
 import okhttp3.Response

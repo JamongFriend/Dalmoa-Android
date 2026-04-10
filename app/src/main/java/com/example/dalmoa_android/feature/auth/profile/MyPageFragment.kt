@@ -1,4 +1,4 @@
-package com.example.chatzar_android.feature.auth.profile
+package com.example.dalmoa_android.feature.auth.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.chatzar_android.R
-import com.example.chatzar_android.core.network.ApiClient
-import com.example.chatzar_android.core.network.TokenManager
-import com.example.chatzar_android.data.remote.api.MemberApi
-import com.example.chatzar_android.data.repository.MemberRepository
-import com.example.chatzar_android.databinding.MemberFragmentProfileBinding
+import com.example.dalmoa_android.R
+import com.example.dalmoa_android.core.ApiClient
+import com.example.dalmoa_android.core.TokenManager
+import com.example.dalmoa_android.data.remote.api.MemberApi
+import com.example.dalmoa_android.data.repository.MemberRepository
+import com.example.dalmoa_android.databinding.MemberFragmentProfileBinding
 import kotlinx.coroutines.launch
 
 class MyPageFragment : Fragment() {
@@ -40,7 +40,7 @@ class MyPageFragment : Fragment() {
         setupListeners()
         observeState()
 
-        // 내 정보 불러오기
+        // 회원정보 불러오기
         val myId = tokenManager.getMemberId()
         if (myId != -1L) {
             viewModel.getMember(myId)
@@ -63,14 +63,6 @@ class MyPageFragment : Fragment() {
             findNavController().navigate(R.id.action_myPage_to_profileEdit)
         }
 
-        binding.btnMatchPreference.setOnClickListener {
-            findNavController().navigate(R.id.action_myPage_to_matchPreference)
-        }
-
-        binding.btnFriendRequests.setOnClickListener {
-            findNavController().navigate(R.id.action_myPage_to_friendRequests)
-        }
-
         binding.btnLogout.setOnClickListener {
             logout()
         }
@@ -85,7 +77,7 @@ class MyPageFragment : Fragment() {
                     }
                     is MyPageUiState.Success -> {
                         binding.pbProfileLoading.visibility = View.GONE
-                        binding.tvMemberNickname.text = state.member.nickname
+                        binding.tvMemberNickname.text = state.member.name
                         binding.tvMemberEmail.text = state.member.email
                     }
                     is MyPageUiState.Error -> {

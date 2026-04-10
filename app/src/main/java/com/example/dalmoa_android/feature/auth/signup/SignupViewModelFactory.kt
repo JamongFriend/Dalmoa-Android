@@ -1,8 +1,8 @@
-package com.example.chatzar_android.feature.auth.signup
+package com.example.dalmoa_android.feature.auth.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.chatzar_android.data.repository.AuthRepository
+import com.example.dalmoa_android.data.repository.AuthRepository
 
 class SignupViewModelFactory(private val repository: AuthRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

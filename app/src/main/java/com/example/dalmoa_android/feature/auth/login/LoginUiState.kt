@@ -1,6 +1,6 @@
-package com.example.chatzar_android.feature.auth.login
+package com.example.dalmoa_android.feature.auth.login
 
-import com.example.chatzar_android.data.remote.dto.LoginResponse
+import com.example.dalmoa_android.data.remote.dto.LoginResponse
 
 sealed class LoginUiState {
     data object Idle : LoginUiState()
