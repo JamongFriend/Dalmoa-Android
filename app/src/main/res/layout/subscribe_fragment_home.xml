@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8F9FA"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".feature.subscribe.SubscribeHomeFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -17,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="80dp"> <!-- FAB에 가려지지 않게 하단 여백 추가 -->
+            android:paddingBottom="80dp">
 
             <!-- 1. 월 선택 네비게이션 -->
             <LinearLayout
@@ -148,7 +149,7 @@
                 </com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>
 
-            <!-- 4. 구독 리스트 (여백 조정) -->
+            <!-- 4. 구독 리스트 -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSubscribeList"
                 android:layout_width="match_parent"
@@ -188,7 +189,7 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- 6. 플로팅 액션 버튼 (항상 최상단에 떠 있음) -->
+    <!-- 6. 플로팅 액션 버튼 -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
         android:layout_width="wrap_content"

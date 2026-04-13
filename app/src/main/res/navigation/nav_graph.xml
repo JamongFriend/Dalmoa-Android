@@ -7,18 +7,33 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.dalmoa_android.HomeFragment"
+        android:name="com.example.dalmoa_android.feature.subscribe.SubscribeHomeFragment"
         android:label="홈"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/subscribe_fragment_home" />
 
     <fragment
         android:id="@+id/navigation_stats"
-        android:name="com.example.dalmoa_android.StatsFragment"
-        android:label="통계" />
+        android:name="com.example.dalmoa_android.feature.subscribe.SubscribeStatsFragment"
+        android:label="통계"
+        tools:layout="@layout/subscribe_fragment_stats" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.example.dalmoa_android.ProfileFragment"
+        android:name="com.example.dalmoa_android.feature.auth.profile.MemberProfileFragment"
         android:label="프로필"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/member_fragment_profile" />
+
+    <!-- 구독 추가 화면 -->
+    <fragment
+        android:id="@+id/subscribeAddFragment"
+        android:name="com.example.dalmoa_android.feature.subscribe.SubscribeAddFragment"
+        android:label="구독 추가"
+        tools:layout="@layout/subscribe_fragment_add" />
+
+    <!-- 구독 상세 화면 -->
+    <fragment
+        android:id="@+id/subscribeDetailFragment"
+        android:name="com.example.dalmoa_android.feature.subscribe.SubscribeDetailFragment"
+        android:label="구독 상세"
+        tools:layout="@layout/subscribe_fragment_detail" />
 </navigation>

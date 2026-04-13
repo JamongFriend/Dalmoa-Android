@@ -1,10 +1,11 @@
-package com.example.dalmoa_android
+package com.example.dalmoa_android.feature
 
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.dalmoa_android.R
 import com.example.dalmoa_android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

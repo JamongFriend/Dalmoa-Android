@@ -1,15 +1,15 @@
-package com.example.dalmoa_android
+package com.example.dalmoa_android.feature.subscribe
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.dalmoa_android.databinding.FragmentHomeBinding
+import com.example.dalmoa_android.databinding.SubscribeFragmentStatsBinding
 
-class HomeFragment : Fragment() {
+class SubscribeStatsFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: SubscribeFragmentStatsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -17,7 +17,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = SubscribeFragmentStatsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
