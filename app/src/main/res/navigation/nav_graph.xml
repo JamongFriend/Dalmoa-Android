@@ -3,43 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/navigation_home">
 
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.dalmoa_android.feature.auth.login.LoginFragment"
-        android:label="로그인"
-        tools:layout="@layout/auth_fragment_login">
-        <action
-            android:id="@+id/action_login_to_signup"
-            app:destination="@id/signupFragment" />
-        <action
-            android:id="@+id/action_login_to_dashboard"
-            app:destination="@id/myPageFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+        android:id="@+id/navigation_home"
+        android:name="com.example.dalmoa_android.HomeFragment"
+        android:label="홈"
+        tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/signupFragment"
-        android:name="com.example.dalmoa_android.feature.auth.signup.SignupFragment"
-        android:label="회원가입"
-        tools:layout="@layout/auth_fragment_signup" />
+        android:id="@+id/navigation_stats"
+        android:name="com.example.dalmoa_android.StatsFragment"
+        android:label="통계" />
 
     <fragment
-        android:id="@+id/myPageFragment"
-        android:name="com.example.dalmoa_android.feature.auth.profile.MyPageFragment"
-        android:label="마이페이지"
-        tools:layout="@layout/member_fragment_profile">
-        <action
-            android:id="@+id/action_myPage_to_profileEdit"
-            app:destination="@id/profileEditFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/profileEditFragment"
-        android:name="com.example.dalmoa_android.feature.auth.profile.ProfileEditFragment"
-        android:label="프로필 수정"
-        tools:layout="@layout/member_fragment_profile_edit" />
-
+        android:id="@+id/navigation_profile"
+        android:name="com.example.dalmoa_android.ProfileFragment"
+        android:label="프로필"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
