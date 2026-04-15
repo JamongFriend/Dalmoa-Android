@@ -4,54 +4,103 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="#FFFFFF">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dalmoa 로그인"
-        android:textSize="24sp"
+        android:text="Dalmoa"
+        android:textColor="#000000"
+        android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="60dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="80dp" />
+
+    <TextView
+        android:id="@+id/tv_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="달마다 모아보기, 달모아"
+        android:textColor="#666666"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
 
     <EditText
         android:id="@+id/et_email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="이메일"
+        android:layout_height="56dp"
+        android:hint="이메일 주소"
         android:inputType="textEmailAddress"
-        app:layout_constraintTop_toBottomOf="@id/tv_title"
-        android:layout_marginTop="40dp" />
+        android:background="@android:drawable/editbox_background"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_subtitle"
+        android:layout_marginTop="48dp" />
 
     <EditText
         android:id="@+id/et_password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:hint="비밀번호"
         android:inputType="textPassword"
+        android:background="@android:drawable/editbox_background"
+        android:paddingHorizontal="16dp"
         app:layout_constraintTop_toBottomOf="@id/et_email"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="12dp" />
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:text="로그인"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:backgroundTint="#000000"
+        android:textColor="#FFFFFF"
         app:layout_constraintTop_toBottomOf="@id/et_password"
-        android:layout_marginTop="32dp" />
+        android:layout_marginTop="24dp" />
 
-    <TextView
-        android:id="@+id/tv_go_signup"
+    <LinearLayout
+        android:id="@+id/layout_options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="처음이신가요? 회원가입하기"
-        android:textColor="@color/black"
+        android:orientation="horizontal"
+        android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/btn_login"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/tv_find_id_pw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="아이디/비밀번호 찾기"
+            android:textColor="#666666"
+            android:textSize="13sp"
+            android:padding="8dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="12dp"
+            android:background="#DDDDDD"
+            android:layout_marginHorizontal="8dp" />
+
+        <TextView
+            android:id="@+id/tv_go_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:textColor="#000000"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:padding="8dp" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

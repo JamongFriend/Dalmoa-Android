@@ -48,9 +48,13 @@ class LoginFragment : Fragment() {
             vm.login(email, password)
         }
 
-        // 3. 회원가입 이동 (dalmoa 액션 ID: action_login_to_signup)
+        // 3. 옵션 버튼 이벤트 (회원가입, 비밀번호 찾기)
         binding.tvGoSignup.setOnClickListener {
             findNavController().navigate(R.id.action_login_to_signup)
+        }
+
+        binding.tvFindIdPw.setOnClickListener {
+            Toast.makeText(requireContext(), "비밀번호 찾기 기능은 준비 중입니다.", Toast.LENGTH_SHORT).show()
         }
 
         // 4. 로그인 상태 관리 및 화면 이동
