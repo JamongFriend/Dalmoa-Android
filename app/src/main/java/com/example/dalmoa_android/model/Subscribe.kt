@@ -1,13 +1,10 @@
 package com.example.dalmoa_android.model
 
-import java.time.LocalDateTime
-
 data class Subscribe(
     val id: Long? = null,
     val name: String,
-    val price: Double,
-    val currency: String = "KRW",
+    val category: SubCategory,
     val date: String,
-    val subCategory: SubCategory,
-    val customCategoryTag: String? = null
+    val price: Double,
+    val currency: String
 )

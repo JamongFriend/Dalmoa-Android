@@ -35,6 +35,7 @@ class SubscribeHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        com.example.dalmoa_android.core.ApiClient.init(requireContext())
         setupRecyclerView()
         setupCategoryFilter()
         observeViewModel()

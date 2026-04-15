@@ -25,7 +25,7 @@ class SubscribeAdapter(
 
         with(holder.binding) {
             tvServiceName.text = item.name
-            tvCategory.text = "${item.subCategory.displayName} • ${item.date}"
+            tvCategory.text = "${item.category.displayName} • ${item.date}"
             tvPrice.text = "${decimalFormat.format(item.price)}원"
             tvCurrency.text = item.currency
 
