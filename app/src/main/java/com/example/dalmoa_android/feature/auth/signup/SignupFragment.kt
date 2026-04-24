@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.dalmoa_android.core.ApiClient
 import com.example.dalmoa_android.data.remote.api.AuthApi
-import com.example.dalmoa_android.data.remote.dto.SignUpRequest
+import com.example.dalmoa_android.data.remote.dto.auth.SignUpRequest
 import com.example.dalmoa_android.data.repository.AuthRepository
 import com.example.dalmoa_android.databinding.AuthFragmentSignupBinding
 import kotlinx.coroutines.launch

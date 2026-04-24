@@ -1,6 +1,6 @@
 package com.example.dalmoa_android.feature.auth.signup
 
-import com.example.dalmoa_android.data.remote.dto.SignUpResponse
+import com.example.dalmoa_android.data.remote.dto.auth.SignUpResponse
 
 sealed class SignupUiState {
     object Idle : SignupUiState()

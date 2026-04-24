@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.dalmoa_android.R
+import com.example.dalmoa_android.core.ApiClient
+import com.example.dalmoa_android.core.TokenManager
 import com.example.dalmoa_android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,8 +18,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // 초기화 및 자동 로그인 체크
-        com.example.dalmoa_android.core.ApiClient.init(this)
-        val tokenManager = com.example.dalmoa_android.core.TokenManager(this)
+        ApiClient.init(this)
+        val tokenManager = TokenManager(this)
         if (!tokenManager.isRememberMe()) {
             tokenManager.clear()
         }

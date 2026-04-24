@@ -10,8 +10,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dalmoa_android.R
 import com.example.dalmoa_android.adapter.SubscribeAdapter
+import com.example.dalmoa_android.core.ApiClient
+import com.example.dalmoa_android.core.TokenManager
 import com.example.dalmoa_android.databinding.SubscribeFragmentHomeBinding
-import com.example.dalmoa_android.feature.subscribe.SubscribeViewModel
 import com.example.dalmoa_android.model.SubCategory
 import com.example.dalmoa_android.model.Subscribe
 import java.text.DecimalFormat
@@ -35,8 +36,8 @@ class SubscribeHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        com.example.dalmoa_android.core.ApiClient.init(requireContext())
-        val tokenManager = com.example.dalmoa_android.core.TokenManager(requireContext())
+        ApiClient.init(requireContext())
+        val tokenManager = TokenManager(requireContext())
         
         // 로그인 체크: 토큰이 없으면 로그인 화면으로 이동
         if (tokenManager.getToken() == null) {

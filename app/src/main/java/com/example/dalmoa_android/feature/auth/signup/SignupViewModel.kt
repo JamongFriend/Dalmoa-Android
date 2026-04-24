@@ -2,7 +2,7 @@ package com.example.dalmoa_android.feature.auth.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dalmoa_android.data.remote.dto.SignUpRequest
+import com.example.dalmoa_android.data.remote.dto.auth.SignUpRequest
 import com.example.dalmoa_android.data.repository.AuthRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

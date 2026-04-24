@@ -1,4 +1,4 @@
-package com.example.dalmoa_android.data.remote.dto
+package com.example.dalmoa_android.data.remote.dto.auth
 
 data class SignUpRequest(
     val email: String,
