@@ -15,18 +15,25 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // 초기화 및 자동 로그인 체크
+        com.example.dalmoa_android.core.ApiClient.init(this)
+        val tokenManager = com.example.dalmoa_android.core.TokenManager(this)
+        if (!tokenManager.isRememberMe()) {
+            tokenManager.clear()
+        }
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 1. 네비게이션 컨트롤러 설정
+        // 네비게이션
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // 2. 하단 네비게이션 바와 네비게이션 컨트롤러 연결
+        // 하단 네비게이션 바와 네비게이션 컨트롤러 연결
         binding.bottomNavigation.setupWithNavController(navController)
 
-        // 3. 화면별 하단 바 가시성 제어 (리스너 추가)
+        // 화면별 하단 바 가시성 제어 (리스너 추가)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.navigation_home, R.id.navigation_stats, R.id.navigation_profile -> {

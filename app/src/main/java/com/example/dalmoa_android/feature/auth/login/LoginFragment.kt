@@ -45,8 +45,12 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
-            vm.login(email, password)
+            val rememberMe = binding.cbRememberMe.isChecked
+            vm.login(email, password, rememberMe)
         }
+
+        // 자동 로그인 체크 여부 복원
+        binding.cbRememberMe.isChecked = tokenManager.isRememberMe()
 
         // 3. 옵션 버튼 이벤트 (회원가입, 비밀번호 찾기)
         binding.tvGoSignup.setOnClickListener {
@@ -66,7 +70,9 @@ class LoginFragment : Fragment() {
                     }
                     is LoginUiState.Success -> {
                         state.data.accessToken?.let { tokenManager.saveToken(it) }
+                        state.data.refreshToken?.let { tokenManager.saveRefreshToken(it) }
                         tokenManager.saveMemberId(state.data.memberId)
+                        tokenManager.saveRememberMe(binding.cbRememberMe.isChecked)
 
                         Toast.makeText(requireContext(), "환영합니다", Toast.LENGTH_SHORT).show()
 

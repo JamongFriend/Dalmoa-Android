@@ -36,6 +36,14 @@ class SubscribeHomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         com.example.dalmoa_android.core.ApiClient.init(requireContext())
+        val tokenManager = com.example.dalmoa_android.core.TokenManager(requireContext())
+        
+        // 로그인 체크: 토큰이 없으면 로그인 화면으로 이동
+        if (tokenManager.getToken() == null) {
+            findNavController().navigate(R.id.loginFragment)
+            return
+        }
+
         setupRecyclerView()
         setupCategoryFilter()
         observeViewModel()
