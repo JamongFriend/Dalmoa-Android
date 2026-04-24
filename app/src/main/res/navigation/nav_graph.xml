@@ -17,13 +17,14 @@
         android:label="통계"
         tools:layout="@layout/subscribe_fragment_stats" />
 
+    <!-- 프로필 메인 화면 (MyPageFragment 사용) -->
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.example.dalmoa_android.feature.auth.profile.MemberProfileFragment"
+        android:name="com.example.dalmoa_android.feature.auth.profile.MyPageFragment"
         android:label="프로필"
         tools:layout="@layout/member_fragment_profile">
         <action
-            android:id="@+id/action_profile_to_edit"
+            android:id="@+id/action_myPage_to_profileEdit"
             app:destination="@id/profileEditFragment" />
     </fragment>
 

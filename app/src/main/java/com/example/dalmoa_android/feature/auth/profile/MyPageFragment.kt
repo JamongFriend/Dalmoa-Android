@@ -73,8 +73,8 @@ class MyPageFragment : Fragment() {
                     }
                     is MyPageUiState.Success -> {
                         binding.pbProfileLoading.visibility = View.GONE
-                        binding.tvMemberNickname.text = state.member.name
-                        binding.tvMemberEmail.text = state.member.email
+                        binding.tvNickname.text = state.member.name
+                        binding.tvEmail.text = state.member.email
                     }
                     is MyPageUiState.Error -> {
                         binding.pbProfileLoading.visibility = View.GONE
