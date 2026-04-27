@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- 서비스 아이콘 (나중에 로고 이미지로 대체 가능) -->
+        <!-- 서비스 아이콘 -->
         <ImageView
             android:id="@+id/ivServiceIcon"
             android:layout_width="48dp"
@@ -42,7 +42,7 @@
                 android:id="@+id/tvServiceName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="넷플릭스"
+                android:text="서비스명"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -51,7 +51,7 @@
                 android:id="@+id/tvCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="OTT • 내일 결제"
+                android:text="카테고리 | 결제일"
                 android:textColor="#666666"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -71,7 +71,7 @@
                 android:id="@+id/tvPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="17,000원"
+                android:text="0원"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />

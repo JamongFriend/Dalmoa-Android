@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace 'com.example.dalmoa_android'
+    namespace 'com.dalmoa.android'
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId "com.example.dalmoa_android"
+        applicationId "com.dalmoa.android"
         minSdk 24
         targetSdk 36
         versionCode 1

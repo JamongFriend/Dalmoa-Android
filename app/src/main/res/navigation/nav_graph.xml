@@ -7,20 +7,20 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.dalmoa_android.feature.subscribe.SubscribeHomeFragment"
+        android:name="com.dalmoa.android.feature.subscribe.SubscribeHomeFragment"
         android:label="홈"
         tools:layout="@layout/subscribe_fragment_home" />
 
     <fragment
         android:id="@+id/navigation_stats"
-        android:name="com.example.dalmoa_android.feature.subscribe.SubscribeStatsFragment"
+        android:name="com.dalmoa.android.feature.subscribe.SubscribeStatsFragment"
         android:label="통계"
         tools:layout="@layout/subscribe_fragment_stats" />
 
     <!-- 프로필 메인 화면 (MyPageFragment 사용) -->
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.example.dalmoa_android.feature.auth.profile.MyPageFragment"
+        android:name="com.dalmoa.android.feature.auth.profile.MyPageFragment"
         android:label="프로필"
         tools:layout="@layout/member_fragment_profile">
         <action
@@ -31,14 +31,14 @@
     <!-- 프로필 수정 화면 -->
     <fragment
         android:id="@+id/profileEditFragment"
-        android:name="com.example.dalmoa_android.feature.auth.profile.ProfileEditFragment"
+        android:name="com.dalmoa.android.feature.auth.profile.ProfileEditFragment"
         android:label="프로필 수정"
         tools:layout="@layout/member_fragment_profile_edit" />
 
     <!-- 로그인 화면 -->
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.dalmoa_android.feature.auth.login.LoginFragment"
+        android:name="com.dalmoa.android.feature.auth.login.LoginFragment"
         android:label="로그인"
         tools:layout="@layout/auth_fragment_login">
         <action
@@ -54,21 +54,21 @@
     <!-- 회원가입 화면 -->
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.example.dalmoa_android.feature.auth.signup.SignupFragment"
+        android:name="com.dalmoa.android.feature.auth.signup.SignupFragment"
         android:label="회원가입"
         tools:layout="@layout/auth_fragment_signup" />
 
     <!-- 구독 추가 화면 -->
     <fragment
         android:id="@+id/subscribeAddFragment"
-        android:name="com.example.dalmoa_android.feature.subscribe.SubscribeAddFragment"
+        android:name="com.dalmoa.android.feature.subscribe.SubscribeAddFragment"
         android:label="구독 추가"
         tools:layout="@layout/subscribe_fragment_add" />
 
     <!-- 구독 상세 화면 -->
     <fragment
         android:id="@+id/subscribeDetailFragment"
-        android:name="com.example.dalmoa_android.feature.subscribe.SubscribeDetailFragment"
+        android:name="com.dalmoa.android.feature.subscribe.SubscribeDetailFragment"
         android:label="구독 상세"
         tools:layout="@layout/subscribe_fragment_detail" />
 </navigation>

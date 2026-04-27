@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="세부사항 확인"
+            android:text="?��??�항 ?�인"
             android:textSize="16sp"
             android:textColor="@android:color/black" />
     </LinearLayout>
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="수정하기"
+            android:text="?�정?�기"
             android:textSize="16sp"
             android:textColor="@android:color/black" />
     </LinearLayout>
@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="삭제하기"
+            android:text="??��?�기"
             android:textSize="16sp"
             android:textColor="@android:color/holo_red_dark" />
     </LinearLayout>

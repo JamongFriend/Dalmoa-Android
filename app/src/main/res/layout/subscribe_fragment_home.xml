@@ -20,7 +20,7 @@
             android:orientation="vertical"
             android:paddingBottom="80dp">
 
-            <!-- 1. 월 선택 네비게이션 -->
+            <!-- 1. 월 선택 내비게이션 -->
             <LinearLayout
                 android:id="@+id/layoutMonthNavigation"
                 android:layout_width="wrap_content"
@@ -71,12 +71,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="이번 달 총 지출"
+                        android:text="이번 달 지출"
                         android:textSize="14sp" />
 
                     <TextView
@@ -103,7 +103,7 @@
                             android:id="@+id/tvSubscribeCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="구독 중인 서비스: 0개"
+                            android:text="구독 중인 서비스 0개"
                             android:textSize="13sp"
                             android:textColor="#666666" />
 
@@ -123,7 +123,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 3. 카테고리별 필터링 (가로 칩) -->
+            <!-- 3. 카테고리 필터링 (가로) -->
             <HorizontalScrollView
                 android:id="@+id/svCategory"
                 android:layout_width="match_parent"
@@ -181,7 +181,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="아직 등록된 구독이 없어요!\n첫 구독을 추가해보세요."
+                    android:text="아직 등록된 구독이 없어요\n첫 구독을 추가해 보세요."
                     android:textAlignment="center"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="16sp" />

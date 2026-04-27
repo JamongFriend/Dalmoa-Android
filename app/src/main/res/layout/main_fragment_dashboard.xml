@@ -25,7 +25,7 @@
                 android:id="@+id/tv_month_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2026년 4월 총 지출"
+                android:text="2026년 4월 지출"
                 android:textSize="18sp"
                 android:textColor="#666666"
                 app:layout_constraintTop_toTopOf="parent"

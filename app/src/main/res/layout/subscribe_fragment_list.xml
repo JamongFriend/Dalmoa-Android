@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
-        android:text="내 구독 목록"
+        android:text="전체 구독 목록"
         android:textColor="@android:color/black"
         android:textSize="22sp"
         android:textStyle="bold"
