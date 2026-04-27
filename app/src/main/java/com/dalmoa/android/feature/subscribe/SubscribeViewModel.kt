@@ -9,6 +9,7 @@ import com.dalmoa.android.data.remote.api.SubscribeApi
 import com.dalmoa.android.model.SubCategory
 import com.dalmoa.android.model.Subscribe
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class SubscribeViewModel : ViewModel() {
 
@@ -23,6 +24,10 @@ class SubscribeViewModel : ViewModel() {
     private val _selectedCategory = MutableLiveData<SubCategory?>(null)
     val selectedCategory: LiveData<SubCategory?> = _selectedCategory
 
+    // 현재 선택된 날짜 상태 추가
+    private val _currentCalendar = MutableLiveData<Calendar>(Calendar.getInstance())
+    val currentCalendar: LiveData<Calendar> = _currentCalendar
+
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -33,12 +38,13 @@ class SubscribeViewModel : ViewModel() {
         loadSubscriptions()
     }
 
-    fun loadSubscriptions() {
+    fun loadSubscriptions(memberId: Long = 1L) {
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
             try {
-                val response = subscribeApi.getSubscriptions(1L)
+                // 전달받은 memberId 사용
+                val response = subscribeApi.getSubscriptions(memberId)
                 if (response.isSuccessful && response.body() != null) {
                     val data = response.body()!!
                     _subscriptions.value = data
@@ -53,6 +59,23 @@ class SubscribeViewModel : ViewModel() {
                 _isLoading.value = false
             }
         }
+    }
+
+    // 다음 달로 이동
+    fun nextMonth() {
+        val cal = _currentCalendar.value ?: Calendar.getInstance()
+        cal.add(Calendar.MONTH, 1)
+        _currentCalendar.value = cal
+        // 달이 바뀌면 데이터를 다시 로드하거나 필터링할 수 있음
+        loadSubscriptions()
+    }
+
+    // 이전 달로 이동
+    fun prevMonth() {
+        val cal = _currentCalendar.value ?: Calendar.getInstance()
+        cal.add(Calendar.MONTH, -1)
+        _currentCalendar.value = cal
+        loadSubscriptions()
     }
 
     fun filterByCategory(category: SubCategory?) {

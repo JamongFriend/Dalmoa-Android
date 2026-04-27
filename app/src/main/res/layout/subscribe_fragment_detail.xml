@@ -9,18 +9,31 @@
     android:fitsSystemWindows="true"
     tools:context=".feature.subscribe.SubscribeDetailFragment">
 
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@android:color/black"
+        android:contentDescription="뒤로가기" />
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="구독 상세 정보"
         android:textColor="@android:color/black"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_top_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/btnBack" />
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
@@ -30,7 +43,7 @@
         app:cardElevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_top_toBottomOf="@id/tvTitle">
+        app:layout_constraintTop_toBottomOf="@id/btnBack">
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -16,6 +16,8 @@ import com.dalmoa.android.databinding.SubscribeFragmentHomeBinding
 import com.dalmoa.android.model.SubCategory
 import com.dalmoa.android.model.Subscribe
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class SubscribeHomeFragment : Fragment() {
 
@@ -39,7 +41,7 @@ class SubscribeHomeFragment : Fragment() {
         ApiClient.init(requireContext())
         val tokenManager = TokenManager(requireContext())
         
-        // 로그인 체크: 토큰이 없으면 로그인 화면으로 이동
+        // 로그인 체크
         if (tokenManager.getToken() == null) {
             findNavController().navigate(R.id.loginFragment)
             return
@@ -47,10 +49,23 @@ class SubscribeHomeFragment : Fragment() {
 
         setupRecyclerView()
         setupCategoryFilter()
+        setupDateNavigation()
         observeViewModel()
         
         binding.fabAdd.setOnClickListener {
             findNavController().navigate(R.id.subscribeAddFragment)
+        }
+    }
+
+    // 구독 추가 후 돌아왔을 때 데이터 갱신을 위해 onResume 사용
+    override fun onResume() {
+        super.onResume()
+        val tokenManager = TokenManager(requireContext())
+        val memberId = tokenManager.getMemberId()
+        if (memberId != -1L) {
+            viewModel.loadSubscriptions(memberId)
+        } else {
+            viewModel.loadSubscriptions(1L) // 기본값 유지
         }
     }
 
@@ -64,6 +79,15 @@ class SubscribeHomeFragment : Fragment() {
         }
     }
 
+    private fun setupDateNavigation() {
+        binding.btnPrevMonth.setOnClickListener {
+            viewModel.prevMonth()
+        }
+        binding.btnNextMonth.setOnClickListener {
+            viewModel.nextMonth()
+        }
+    }
+
     private fun setupCategoryFilter() {
         binding.chipGroupCategory.setOnCheckedStateChangeListener { group, checkedIds ->
             val category = when (checkedIds.firstOrNull()) {
@@ -73,7 +97,7 @@ class SubscribeHomeFragment : Fragment() {
                 R.id.chipLifestyle -> SubCategory.LIFESTYLE
                 R.id.chipFinance -> SubCategory.FINANCE
                 R.id.chipEtc -> SubCategory.ETC
-                else -> null // chipAll or none
+                else -> null
             }
             viewModel.filterByCategory(category)
         }
@@ -82,6 +106,12 @@ class SubscribeHomeFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.filteredSubscriptions.observe(viewLifecycleOwner) { subscriptions ->
             updateUI(subscriptions)
+        }
+        
+        // 날짜 변경 시 텍스트 업데이트
+        viewModel.currentCalendar.observe(viewLifecycleOwner) { calendar ->
+            val sdf = SimpleDateFormat("yyyy년 M월", Locale.KOREA)
+            binding.tvCurrentMonth.text = sdf.format(calendar.time)
         }
     }
 

@@ -34,14 +34,14 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 1. 초기화(dalmoa 패키지 기반)
+        // 1. 초기화
         ApiClient.init(requireContext())
         tokenManager = TokenManager(requireContext())
         val authApi = ApiClient.retrofit.create(AuthApi::class.java)
         val repo = AuthRepository(authApi)
         vm = ViewModelProvider(this, LoginViewModelFactory(repo))[LoginViewModel::class.java]
 
-        // 2. 로그인 버튼 이벤트
+        // 2. 로그인 버튼 이벤트 (XML ID: btn_login -> ViewBinding: btnLogin)
         binding.btnLogin.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
@@ -49,10 +49,7 @@ class LoginFragment : Fragment() {
             vm.login(email, password, rememberMe)
         }
 
-        // 자동 로그인 체크 상태 복원
-        binding.cbRememberMe.isChecked = tokenManager.isRememberMe()
-
-        // 3. 옵션 버튼 이벤트(회원가입 비밀번호 찾기)
+        // 3. 회원가입 버튼 이벤트 (XML ID: tv_go_signup -> ViewBinding: tvGoSignup)
         binding.tvGoSignup.setOnClickListener {
             findNavController().navigate(R.id.action_login_to_signup)
         }
@@ -61,12 +58,15 @@ class LoginFragment : Fragment() {
             Toast.makeText(requireContext(), "비밀번호 찾기 기능은 준비중입니다.", Toast.LENGTH_SHORT).show()
         }
 
-        // 4. 로그인 상태 관리 및 화면 이동
+        // 자동 로그인 체크 상태 복원
+        binding.cbRememberMe.isChecked = tokenManager.isRememberMe()
+
+        // 4. 로그인 상태 관찰
         viewLifecycleOwner.lifecycleScope.launch {
             vm.state.collect { state ->
                 when (state) {
                     is LoginUiState.Loading -> {
-                        Toast.makeText(requireContext(), "로그인 중.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "로그인 중...", Toast.LENGTH_SHORT).show()
                     }
                     is LoginUiState.Success -> {
                         state.data.accessToken?.let { tokenManager.saveToken(it) }
@@ -74,8 +74,9 @@ class LoginFragment : Fragment() {
                         tokenManager.saveMemberId(state.data.memberId)
                         tokenManager.saveRememberMe(binding.cbRememberMe.isChecked)
 
-                        Toast.makeText(requireContext(), "환영합니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "환영합니다!", Toast.LENGTH_SHORT).show()
 
+                        // 홈 화면으로 이동
                         findNavController().navigate(R.id.action_login_to_dashboard)
                     }
                     is LoginUiState.Error -> {

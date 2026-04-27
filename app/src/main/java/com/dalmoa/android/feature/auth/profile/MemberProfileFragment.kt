@@ -30,12 +30,13 @@ class MemberProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ?�시�??�?�된 ?�보 ?�시 (?�제로는 ViewModel???�해 가?��?????
+        // 임시로 저장된 정보 표시 (실제로는 ViewModel을 통해 가져와야 함)
         binding.tvEmail.text = "user@example.com"
         binding.tvNickname.text = "회원님"
 
         binding.btnEditProfile.setOnClickListener {
-            findNavController().navigate(R.id.action_profile_to_edit)
+            // nav_graph.xml에 정의된 올바른 액션 ID로 수정
+            findNavController().navigate(R.id.action_myPage_to_profileEdit)
         }
 
         binding.btnSettings.setOnClickListener {
@@ -45,6 +46,7 @@ class MemberProfileFragment : Fragment() {
         binding.btnLogout.setOnClickListener {
             tokenManager.clear()
             Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+            // 메인 그래프의 loginFragment ID로 이동
             findNavController().navigate(R.id.loginFragment)
         }
     }
