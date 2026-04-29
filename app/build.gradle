@@ -21,7 +21,10 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            // 난독화 및 코드 최적화 활성화
+            minifyEnabled true
+            // 미사용 리소스 제거
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

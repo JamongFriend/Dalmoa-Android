@@ -7,8 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    // 실제 출시 시에는 https://your-domain.com/ 형태로 변경해야 합니다.
-    private const val BASE_URL = "http://10.0.2.2:8080/" 
+    private const val BASE_URL = "https://dalmoa.duckdns.org/"
 
     private var tokenManager: TokenManager? = null
 
