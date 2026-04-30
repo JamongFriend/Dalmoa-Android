@@ -66,7 +66,7 @@ class SubscribeViewModel : ViewModel() {
         val cal = _currentCalendar.value ?: Calendar.getInstance()
         cal.add(Calendar.MONTH, 1)
         _currentCalendar.value = cal
-        // 달이 바뀌면 데이터를 다시 로드하거나 필터링할 수 있음
+        // 달이 바뀌면 데이터를 다시 로드하거나 필터링
         loadSubscriptions()
     }
 
@@ -86,6 +86,18 @@ class SubscribeViewModel : ViewModel() {
         } else {
             _filteredSubscriptions.value = currentList.filter { it.category == category }
         }
+    }
+
+    // 카테고리별 지출 합계 계산
+    fun getSpendingByCategory(): Map<SubCategory, Double> {
+        return _subscriptions.value?.groupBy { it.category }
+            ?.mapValues { entry -> entry.value.sumOf { it.price } }
+            ?: emptyMap()
+    }
+
+    // 가장 많이 지출한 카테고리 정보 가져오기
+    fun getTopSpendingCategory(): Pair<SubCategory, Double>? {
+        return getSpendingByCategory().maxByOrNull { it.value }?.toPair()
     }
 
     fun getTotalAmount(): Double {

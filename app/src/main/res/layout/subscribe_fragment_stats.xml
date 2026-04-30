@@ -35,27 +35,12 @@
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp">
 
-            <LinearLayout
+            <com.dalmoa.android.feature.subscribe.view.PieChartView
+                android:id="@+id/pieChartView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="20dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="여기에 소비 통계 그래프가 들어갈 예정입니다"
-                    android:textColor="@android:color/darker_gray" />
-                
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="(원형 차트 또는 막대 그래프)"
-                    android:textSize="12sp"
-                    android:textColor="#AAAAAA" />
-            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
@@ -79,10 +64,11 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvTopCategorySummary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="이번 달은 OTT 서비스에\n가장 많은 금액을 사용하셨어요!"
+                    android:text="데이터를 불러오는 중입니다..."
                     android:textColor="#666666" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
