@@ -8,10 +8,10 @@ import androidx.navigation.ui.setupWithNavController
 import com.dalmoa.android.R
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
+import com.dalmoa.android.core.ApiClient
+import com.dalmoa.android.core.TokenManager
+import com.dalmoa.android.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,12 +22,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 초기화 및 자동 로그인 체크
+        // 초기화
         ApiClient.init(this)
         val tokenManager = TokenManager(this)
-        if (!tokenManager.isRememberMe()) {
-            tokenManager.clear()
-        }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -46,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         // 화면별 하단 바 가시성 제어 (리스너 추가)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.navigation_home, R.id.navigation_stats, R.id.navigation_profile -> {
+                R.id.navigation_home, R.id.navigation_list, R.id.navigation_stats, R.id.navigation_profile -> {
                     binding.bottomNavigation.visibility = View.VISIBLE
                 }
                 else -> {
@@ -71,8 +68,8 @@ class MainActivity : AppCompatActivity() {
                             Toast.makeText(this@MainActivity, "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
                         }
                     }
-                    R.id.navigation_stats, R.id.navigation_profile -> {
-                        // 통계나 프로필인 경우: 홈 화면으로 이동
+                    R.id.navigation_list, R.id.navigation_stats, R.id.navigation_profile -> {
+                        // 목록, 통계나 프로필인 경우: 홈 화면으로 이동
                         binding.bottomNavigation.selectedItemId = R.id.navigation_home
                     }
                     else -> {

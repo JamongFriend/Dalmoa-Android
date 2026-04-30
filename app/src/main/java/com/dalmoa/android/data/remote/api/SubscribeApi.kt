@@ -4,8 +4,10 @@ import com.dalmoa.android.data.remote.dto.subscribe.SubscribeRequest
 import com.dalmoa.android.model.Subscribe
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface SubscribeApi {
@@ -17,4 +19,16 @@ interface SubscribeApi {
         @Path("memberId") memberId: Long,
         @Body request: SubscribeRequest
     ): Response<Subscribe>
+
+    @PUT("api/subscribe/{subscribeId}")
+    suspend fun editSubscribe(
+        @Path("subscribeId") subscribeId: Long,
+        @Body request: SubscribeRequest
+    ): Response<Subscribe>
+
+    @DELETE("api/subscribe/{subscribeId}/{memberId}")
+    suspend fun deleteSubscribe(
+        @Path("subscribeId") subscribeId: Long,
+        @Path("memberId") memberId: Long
+    ): Response<Void>
 }

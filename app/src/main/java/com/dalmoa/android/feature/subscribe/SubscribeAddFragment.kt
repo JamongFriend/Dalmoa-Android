@@ -16,6 +16,8 @@ import com.dalmoa.android.data.remote.api.SubscribeApi
 import com.dalmoa.android.data.remote.dto.subscribe.SubscribeRequest
 import com.dalmoa.android.databinding.SubscribeFragmentAddBinding
 import com.dalmoa.android.model.SubCategory
+import com.dalmoa.android.data.remote.dto.ErrorResponse
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -89,9 +91,10 @@ class SubscribeAddFragment : Fragment() {
 
         val price = priceStr.toDoubleOrNull() ?: 0.0
         val memberId = tokenManager.getMemberId()
+        val token = tokenManager.getToken()
 
-        if (memberId == -1L) {
-            Toast.makeText(context, "로그인 정보가 없습니다.", Toast.LENGTH_SHORT).show()
+        if (memberId == -1L || token.isNullOrBlank()) {
+            Toast.makeText(context, "로그인 세션이 만료되었습니다. 다시 로그인해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -111,7 +114,18 @@ class SubscribeAddFragment : Fragment() {
                     Toast.makeText(context, "${name} 구독이 추가되었습니다.", Toast.LENGTH_SHORT).show()
                     findNavController().popBackStack()
                 } else {
-                    Toast.makeText(context, "저장 실패: ${response.code()}", Toast.LENGTH_SHORT).show()
+                    if (response.code() == 403) {
+                        Toast.makeText(context, "접근 권한이 없습니다 (403). 다시 로그인해 보세요.", Toast.LENGTH_LONG).show()
+                    } else {
+                        val errorBody = response.errorBody()?.string()
+                        val errorMessage = try {
+                            val errorResponse = Gson().fromJson(errorBody, ErrorResponse::class.java)
+                            errorResponse.message
+                        } catch (e: Exception) {
+                            "저장 실패: ${response.code()}"
+                        }
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                    }
                 }
             } catch (e: Exception) {
                 Toast.makeText(context, "네트워크 오류: ${e.message}", Toast.LENGTH_SHORT).show()

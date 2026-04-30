@@ -29,6 +29,12 @@
         tools:layout="@layout/subscribe_fragment_home" />
 
     <fragment
+        android:id="@+id/navigation_list"
+        android:name="com.dalmoa.android.feature.subscribe.SubscribeListFragment"
+        android:label="목록"
+        tools:layout="@layout/subscribe_fragment_list" />
+
+    <fragment
         android:id="@+id/navigation_stats"
         android:name="com.dalmoa.android.feature.subscribe.SubscribeStatsFragment"
         android:label="통계"
@@ -87,5 +93,23 @@
         android:id="@+id/subscribeDetailFragment"
         android:name="com.dalmoa.android.feature.subscribe.SubscribeDetailFragment"
         android:label="구독 상세"
-        tools:layout="@layout/subscribe_fragment_detail" />
+        tools:layout="@layout/subscribe_fragment_detail">
+        <argument
+            android:name="subscribe"
+            app:argType="com.dalmoa.android.model.Subscribe" />
+        <action
+            android:id="@+id/action_detail_to_edit"
+            app:destination="@id/subscribeEditFragment" />
+    </fragment>
+
+    <!-- 구독 수정 화면 -->
+    <fragment
+        android:id="@+id/subscribeEditFragment"
+        android:name="com.dalmoa.android.feature.subscribe.SubscribeEditFragment"
+        android:label="구독 수정"
+        tools:layout="@layout/subscribe_fragment_edit">
+        <argument
+            android:name="subscribe"
+            app:argType="com.dalmoa.android.model.Subscribe" />
+    </fragment>
 </navigation>

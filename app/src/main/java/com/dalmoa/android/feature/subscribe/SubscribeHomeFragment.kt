@@ -62,7 +62,10 @@ class SubscribeHomeFragment : Fragment() {
 
     private fun setupRecyclerView() {
         subscribeAdapter = SubscribeAdapter(emptyList()) { item ->
-            findNavController().navigate(R.id.subscribeDetailFragment)
+            val bundle = Bundle().apply {
+                putParcelable("subscribe", item)
+            }
+            findNavController().navigate(R.id.subscribeDetailFragment, bundle)
         }
         binding.rvSubscribeList.apply {
             adapter = subscribeAdapter

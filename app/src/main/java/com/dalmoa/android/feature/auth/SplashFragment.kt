@@ -28,15 +28,7 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         observeState()
-        setupListeners()
-    }
-
-    private fun setupListeners() {
-        binding.btnSplashBack.setOnClickListener {
-            requireActivity().finish()
-        }
     }
 
     private fun observeState() {

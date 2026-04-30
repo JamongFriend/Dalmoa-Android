@@ -137,17 +137,5 @@
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@id/til_edit_payment_date" />
 
-        <Button
-            android:id="@+id/btn_delete_subscribe"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="삭제하기"
-            android:textColor="@android:color/holo_red_dark"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_update_subscribe" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

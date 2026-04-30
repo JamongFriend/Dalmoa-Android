@@ -1,6 +1,10 @@
 package com.dalmoa.android.model
 
-enum class SubCategory(val displayName: String) {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+enum class SubCategory(val displayName: String) : Parcelable {
     OTT("OTT"),
     MUSIC("음악"),
     GAME("게임"),
