@@ -12,4 +12,13 @@
 /captures
 .externalNativeBuild
 .cxx
-local.properties
+
+# Release artifacts
+*.jks
+*.keystore
+*.apk
+*.aab
+*.dm
+
+# Logs
+*.log
