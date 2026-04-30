@@ -38,15 +38,6 @@ class SubscribeHomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ApiClient.init(requireContext())
-        val tokenManager = TokenManager(requireContext())
-        
-        // 로그인 체크
-        if (tokenManager.getToken() == null) {
-            findNavController().navigate(R.id.loginFragment)
-            return
-        }
-
         setupRecyclerView()
         setupCategoryFilter()
         setupDateNavigation()

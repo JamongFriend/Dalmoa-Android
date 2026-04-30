@@ -22,9 +22,11 @@ object ApiClient {
     }
 
     private val okHttp: OkHttpClient by lazy {
+        val manager = tokenManager ?: throw IllegalStateException("ApiClient must be initialized with init(context) before access.")
         OkHttpClient.Builder()
             .addInterceptor(logging)
-            .addInterceptor(AuthInterceptor(tokenManager ?: throw IllegalStateException("ApiClient must be initialized with init(context) before access.")))
+            .addInterceptor(AuthInterceptor(manager))
+            .authenticator(TokenAuthenticator(manager))
             .build()
     }
 
