@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dalmoa.android.data.remote.dto.auth.LoginRequest
 import com.dalmoa.android.data.repository.AuthRepository
+import com.dalmoa.android.data.remote.dto.ErrorResponse
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -26,7 +28,14 @@ class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
                 if (response.isSuccessful && response.body() != null) {
                     _state.value = LoginUiState.Success(response.body()!!)
                 } else {
-                    _state.value = LoginUiState.Error("로그인 실패")
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = try {
+                        val errorResponse = Gson().fromJson(errorBody, ErrorResponse::class.java)
+                        errorResponse.message
+                    } catch (e: Exception) {
+                        "로그인 실패"
+                    }
+                    _state.value = LoginUiState.Error(errorMessage)
                 }
             } catch (e: Exception) {
                 _state.value = LoginUiState.Error(e.message ?: "에러 발생")

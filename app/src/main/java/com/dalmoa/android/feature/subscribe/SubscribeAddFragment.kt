@@ -40,6 +40,10 @@ class SubscribeAddFragment : Fragment() {
         ApiClient.init(requireContext())
         tokenManager = TokenManager(requireContext())
 
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         binding.etDate.setOnClickListener {
             showDatePicker()
         }
