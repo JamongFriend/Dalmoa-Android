@@ -91,26 +91,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/btnEditProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:drawableStart="@android:drawable/ic_menu_edit"
-                    android:drawablePadding="16dp"
-                    android:gravity="center_vertical"
-                    android:padding="16dp"
-                    android:text="프로필 수정"
-                    android:textSize="16sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="#EEEEEE" />
-
-                <TextView
                     android:id="@+id/btnSettings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -122,27 +102,6 @@
                     android:gravity="center_vertical"
                     android:padding="16dp"
                     android:text="환경 설정"
-                    android:textSize="16sp" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="16dp"
-                    android:background="#EEEEEE" />
-
-                <TextView
-                    android:id="@+id/btnLogout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:drawableStart="@android:drawable/ic_lock_power_off"
-                    android:drawablePadding="16dp"
-                    android:gravity="center_vertical"
-                    android:padding="16dp"
-                    android:text="로그아웃"
-                    android:textColor="#FF5252"
                     android:textSize="16sp" />
 
             </LinearLayout>

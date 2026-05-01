@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -55,12 +54,8 @@ class MyPageFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        binding.btnEditProfile.setOnClickListener {
-            findNavController().navigate(R.id.action_myPage_to_profileEdit)
-        }
-
-        binding.btnLogout.setOnClickListener {
-            logout()
+        binding.btnSettings.setOnClickListener {
+            findNavController().navigate(R.id.action_myPage_to_settings)
         }
     }
 
@@ -84,12 +79,6 @@ class MyPageFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun logout() {
-        tokenManager.clear()
-        Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
-        findNavController().navigate(R.id.loginFragment)
     }
 
     override fun onDestroyView() {
