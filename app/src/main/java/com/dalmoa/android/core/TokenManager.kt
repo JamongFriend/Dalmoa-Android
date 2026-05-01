@@ -7,22 +7,17 @@ import androidx.security.crypto.MasterKey
 
 class TokenManager(context: Context) {
     private val prefs: SharedPreferences by lazy {
-        try {
-            val masterKey = MasterKey.Builder(context)
-                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-                .build()
+        val masterKey = MasterKey.Builder(context)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
 
-            EncryptedSharedPreferences.create(
-                context,
-                "dalmoa_secure_prefs",
-                masterKey,
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            )
-        } catch (e: Exception) {
-            // 암호화 키 이슈 발생 시 기존 데이터 삭제 후 일반 Prefs로 시도하거나 빈 Prefs 제공
-            context.getSharedPreferences("dalmoa_prefs", Context.MODE_PRIVATE)
-        }
+        EncryptedSharedPreferences.create(
+            context,
+            "dalmoa_secure_prefs",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
     }
 
     companion object {
