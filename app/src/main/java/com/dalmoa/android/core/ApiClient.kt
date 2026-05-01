@@ -1,6 +1,7 @@
 package com.dalmoa.android.core
 
 import android.content.Context
+import com.dalmoa.android.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,17 +18,17 @@ object ApiClient {
         }
     }
 
-    private val logging = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
-    }
-
     private val okHttp: OkHttpClient by lazy {
         val manager = tokenManager ?: throw IllegalStateException("ApiClient must be initialized with init(context) before access.")
-        OkHttpClient.Builder()
-            .addInterceptor(logging)
+        val builder = OkHttpClient.Builder()
             .addInterceptor(AuthInterceptor(manager))
             .authenticator(TokenAuthenticator(manager))
-            .build()
+        if (BuildConfig.DEBUG) {
+            builder.addInterceptor(HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            })
+        }
+        builder.build()
     }
 
     val retrofit: Retrofit by lazy {
