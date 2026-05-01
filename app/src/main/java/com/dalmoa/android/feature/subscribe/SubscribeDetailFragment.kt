@@ -14,6 +14,7 @@ import com.dalmoa.android.databinding.SubscribeFragmentDetailBinding
 import android.os.Build
 import com.dalmoa.android.R
 import com.dalmoa.android.model.Subscribe
+import com.dalmoa.android.core.formatDate
 import java.text.DecimalFormat
 
 class SubscribeDetailFragment : Fragment() {
@@ -52,7 +53,7 @@ class SubscribeDetailFragment : Fragment() {
             binding.tvDetailName.text = it.name
             val formattedPrice = DecimalFormat("#,###").format(it.price)
             binding.tvDetailPrice.text = "${formattedPrice}원 (${it.category.displayName})"
-            binding.tvDetailDate.text = "결제일: ${it.date}"
+            binding.tvDetailDate.text = "결제일: ${formatDate(it.date)}"
         }
     }
 

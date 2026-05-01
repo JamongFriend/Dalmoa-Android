@@ -90,32 +90,27 @@
                     android:id="@+id/toggleCurrency"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
                     app:selectionRequired="true"
                     app:singleSelection="true">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnKrw"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="6dp"
-                        android:minHeight="0dp"
-                        android:minWidth="0dp"
-                        android:text="KRW"
-                        android:textSize="11sp" />
+                        android:layout_width="70dp"
+                        android:layout_height="54dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="KRW" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnUsd"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="10dp"
-                        android:paddingVertical="6dp"
-                        android:minHeight="0dp"
-                        android:minWidth="0dp"
-                        android:text="USD"
-                        android:textSize="11sp" />
+                        android:layout_width="70dp"
+                        android:layout_height="54dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="USD" />
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 

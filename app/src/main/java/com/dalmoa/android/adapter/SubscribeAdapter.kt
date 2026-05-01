@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.dalmoa.android.databinding.ItemSubscribeBinding
 import com.dalmoa.android.model.Subscribe
+import com.dalmoa.android.core.formatDate
 import java.text.DecimalFormat
 
 class SubscribeAdapter(
@@ -25,7 +26,7 @@ class SubscribeAdapter(
 
         with(holder.binding) {
             tvServiceName.text = item.name
-            tvCategory.text = "${item.category.displayName} | ${item.date}"
+            tvCategory.text = "${item.category.displayName} | ${formatDate(item.date)}"
             tvPrice.text = "${decimalFormat.format(item.price)}원"
             tvCurrency.text = item.currency
 

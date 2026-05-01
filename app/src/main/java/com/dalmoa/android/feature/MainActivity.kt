@@ -34,9 +34,14 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
+        val token = tokenManager.getToken()
+        if (token != null && tokenManager.getMemberId() == -1L) {
+            extractMemberIdFromToken(token)?.let { tokenManager.saveMemberId(it) }
+        }
+
         val graph = navController.navInflater.inflate(R.navigation.nav_graph)
         graph.setStartDestination(
-            if (tokenManager.getToken() != null) R.id.navigation_home else R.id.loginFragment
+            if (token != null) R.id.navigation_home else R.id.loginFragment
         )
         navController.setGraph(graph, null)
 
@@ -56,6 +61,16 @@ class MainActivity : AppCompatActivity() {
                     binding.bottomNavigation.visibility = View.GONE
                 }
             }
+        }
+    }
+
+    private fun extractMemberIdFromToken(token: String): Long? {
+        return try {
+            val payload = token.split(".")[1]
+            val decoded = String(android.util.Base64.decode(payload, android.util.Base64.URL_SAFE or android.util.Base64.NO_PADDING))
+            org.json.JSONObject(decoded).getLong("sub")
+        } catch (e: Exception) {
+            null
         }
     }
 
