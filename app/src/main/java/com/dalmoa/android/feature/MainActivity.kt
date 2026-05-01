@@ -34,6 +34,12 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
+        val graph = navController.navInflater.inflate(R.navigation.nav_graph)
+        graph.setStartDestination(
+            if (tokenManager.getToken() != null) R.id.navigation_home else R.id.loginFragment
+        )
+        navController.setGraph(graph, null)
+
         // 하단 네비게이션 바와 네비게이션 컨트롤러 연결
         binding.bottomNavigation.setupWithNavController(navController)
 
