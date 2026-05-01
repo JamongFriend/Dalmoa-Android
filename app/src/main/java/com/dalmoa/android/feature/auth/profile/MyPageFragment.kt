@@ -54,6 +54,10 @@ class MyPageFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        binding.btnEditProfile.setOnClickListener {
+            findNavController().navigate(R.id.action_myPage_to_profileEdit)
+        }
+
         binding.btnSettings.setOnClickListener {
             findNavController().navigate(R.id.action_myPage_to_settings)
         }

@@ -37,10 +37,6 @@ class SettingsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        binding.btnEditProfile.setOnClickListener {
-            findNavController().navigate(R.id.action_settings_to_profileEdit)
-        }
-
         binding.btnLogout.setOnClickListener {
             tokenManager.clear()
             Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
