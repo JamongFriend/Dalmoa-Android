@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="사진 변경"
-        android:textColor="#007AFF"
+        android:textColor="#000000"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

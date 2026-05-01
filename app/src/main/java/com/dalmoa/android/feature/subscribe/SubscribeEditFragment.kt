@@ -1,5 +1,6 @@
 package com.dalmoa.android.feature.subscribe
 
+import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import java.util.Calendar
 import com.dalmoa.android.R
 import com.dalmoa.android.databinding.SubscribeFragmentEditBinding
 import com.dalmoa.android.model.SubCategory
@@ -75,9 +77,30 @@ class SubscribeEditFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        binding.etEditPaymentDate.setOnClickListener {
+            showDatePicker()
+        }
+
         binding.btnUpdateSubscribe.setOnClickListener {
             updateSubscribe()
         }
+    }
+
+    private fun showDatePicker() {
+        val currentDate = binding.etEditPaymentDate.text.toString()
+        val calendar = Calendar.getInstance()
+
+        if (currentDate.isNotEmpty()) {
+            val parts = currentDate.split("-")
+            if (parts.size == 3) {
+                calendar.set(parts[0].toInt(), parts[1].toInt() - 1, parts[2].toInt())
+            }
+        }
+
+        DatePickerDialog(requireContext(), R.style.DatePickerTheme, { _, selectedYear, selectedMonth, selectedDay ->
+            val formattedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
+            binding.etEditPaymentDate.setText(formattedDate)
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
     }
 
     private fun updateSubscribe() {

@@ -40,6 +40,9 @@ class MyPageFragment : Fragment() {
         setupListeners()
         observeState()
 
+        // JWT에서 이메일 즉시 표시 (API 응답 전 fallback)
+        tokenManager.getEmailFromToken()?.let { binding.tvEmail.text = it }
+
         // 회원정보 불러오기
         val myId = tokenManager.getMemberId()
         if (myId != -1L) {
@@ -59,8 +62,8 @@ class MyPageFragment : Fragment() {
             findNavController().navigate(R.id.action_myPage_to_profileEdit)
         }
 
-        binding.btnLogout.setOnClickListener {
-            logout()
+        binding.btnSettings.setOnClickListener {
+            findNavController().navigate(R.id.action_myPage_to_settings)
         }
     }
 
@@ -84,12 +87,6 @@ class MyPageFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun logout() {
-        tokenManager.clear()
-        Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
-        findNavController().navigate(R.id.loginFragment)
     }
 
     override fun onDestroyView() {

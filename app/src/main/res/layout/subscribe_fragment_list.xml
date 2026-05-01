@@ -42,7 +42,7 @@
         android:layout_marginBottom="24dp"
         android:contentDescription="구독 추가"
         android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/design_default_color_primary"
+        app:backgroundTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:tint="@android:color/white" />

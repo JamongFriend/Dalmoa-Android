@@ -59,6 +59,17 @@ class TokenManager(context: Context) {
         return prefs.getBoolean(REMEMBER_ME, false)
     }
 
+    fun getEmailFromToken(): String? {
+        return try {
+            val token = getToken() ?: return null
+            val payload = token.split(".")[1]
+            val decoded = String(android.util.Base64.decode(payload, android.util.Base64.URL_SAFE or android.util.Base64.NO_PADDING))
+            org.json.JSONObject(decoded).getString("email")
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     fun clear() {
         prefs.edit().clear().apply()
     }

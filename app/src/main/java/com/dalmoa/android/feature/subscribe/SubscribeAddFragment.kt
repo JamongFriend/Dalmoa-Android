@@ -50,6 +50,14 @@ class SubscribeAddFragment : Fragment() {
             showDatePicker()
         }
 
+        binding.toggleCurrency.check(R.id.btnKrw)
+
+        binding.chipGroupCategory.setOnCheckedStateChangeListener { _, checkedIds ->
+            val isEtc = checkedIds.contains(R.id.chipAddEtc)
+            binding.tilCustomCategory.visibility = if (isEtc) View.VISIBLE else View.GONE
+            if (!isEtc) binding.etCustomCategory.setText("")
+        }
+
         binding.btnSave.setOnClickListener {
             saveSubscribe()
         }
@@ -61,8 +69,7 @@ class SubscribeAddFragment : Fragment() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-            // 백엔드 LocalDate 형식(yyyy-MM-dd)에 맞게 포맷팅
+        DatePickerDialog(requireContext(), R.style.DatePickerTheme, { _, selectedYear, selectedMonth, selectedDay ->
             val formattedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
             binding.etDate.setText(formattedDate)
         }, year, month, day).show()
@@ -84,12 +91,22 @@ class SubscribeAddFragment : Fragment() {
             else -> null
         }
 
+        val customCategoryTag = if (subCategory == SubCategory.ETC) {
+            binding.etCustomCategory.text.toString().trim()
+        } else null
+
         if (name.isEmpty() || priceStr.isEmpty() || date.isEmpty() || subCategory == null) {
             Toast.makeText(context, "모든 정보를 입력해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
+        if (subCategory == SubCategory.ETC && customCategoryTag.isNullOrEmpty()) {
+            Toast.makeText(context, "카테고리 이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val price = priceStr.toDoubleOrNull() ?: 0.0
+        val currency = if (binding.toggleCurrency.checkedButtonId == R.id.btnUsd) "USD" else "KRW"
         val memberId = tokenManager.getMemberId()
         val token = tokenManager.getToken()
 
@@ -101,8 +118,10 @@ class SubscribeAddFragment : Fragment() {
         val request = SubscribeRequest(
             name = name,
             price = price,
+            currency = currency,
             date = date,
-            subCategory = subCategory
+            subCategory = subCategory,
+            customCategoryTag = customCategoryTag
         )
 
         lifecycleScope.launch {

@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.dalmoa.android.BuildConfig
 import com.dalmoa.android.R
 import com.dalmoa.android.core.TokenManager
-import com.dalmoa.android.databinding.MemberFragmentProfileBinding
+import com.dalmoa.android.databinding.MemberFragmentSettingsBinding
 
-class MemberProfileFragment : Fragment() {
+class SettingsFragment : Fragment() {
 
-    private var _binding: MemberFragmentProfileBinding? = null
+    private var _binding: MemberFragmentSettingsBinding? = null
     private val binding get() = _binding!!
     private lateinit var tokenManager: TokenManager
 
@@ -23,31 +24,27 @@ class MemberProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         tokenManager = TokenManager(requireContext())
-        _binding = MemberFragmentProfileBinding.inflate(inflater, container, false)
+        _binding = MemberFragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 임시로 저장된 정보 표시 (실제로는 ViewModel을 통해 가져와야 함)
-        binding.tvEmail.text = "user@example.com"
-        binding.tvNickname.text = "회원님"
+        binding.tvVersion.text = "v${BuildConfig.VERSION_NAME}"
 
-        binding.btnEditProfile.setOnClickListener {
-            // nav_graph.xml에 정의된 올바른 액션 ID로 수정
-            findNavController().navigate(R.id.action_myPage_to_profileEdit)
-        }
-
-        binding.btnSettings.setOnClickListener {
-            Toast.makeText(context, "환경 설정 화면으로 이동합니다.", Toast.LENGTH_SHORT).show()
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
         }
 
         binding.btnLogout.setOnClickListener {
             tokenManager.clear()
-            Toast.makeText(context, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
-            // 메인 그래프의 loginFragment ID로 이동
+            Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.loginFragment)
+        }
+
+        binding.btnWithdraw.setOnClickListener {
+            Toast.makeText(requireContext(), "준비 중인 기능입니다.", Toast.LENGTH_SHORT).show()
         }
     }
 

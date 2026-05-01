@@ -198,6 +198,8 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
         android:contentDescription="구독 추가"
+        app:backgroundTint="#000000"
+        app:tint="@android:color/white"
         app:srcCompat="@android:drawable/ic_input_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
