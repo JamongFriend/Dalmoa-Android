@@ -126,6 +126,7 @@
                 android:id="@+id/btnSave"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:backgroundTint="#000000"
                 android:text="구독 추가하기"
                 android:textSize="18sp"
                 android:textStyle="bold"

@@ -30,7 +30,18 @@
         android:label="프로필"
         tools:layout="@layout/member_fragment_profile">
         <action
-            android:id="@+id/action_myPage_to_profileEdit"
+            android:id="@+id/action_myPage_to_settings"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+
+    <!-- 환경 설정 화면 -->
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.dalmoa.android.feature.auth.profile.SettingsFragment"
+        android:label="환경 설정"
+        tools:layout="@layout/member_fragment_settings">
+        <action
+            android:id="@+id/action_settings_to_profileEdit"
             app:destination="@id/profileEditFragment" />
     </fragment>
 
