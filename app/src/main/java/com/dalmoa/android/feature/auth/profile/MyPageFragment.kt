@@ -40,6 +40,9 @@ class MyPageFragment : Fragment() {
         setupListeners()
         observeState()
 
+        // JWT에서 이메일 즉시 표시 (API 응답 전 fallback)
+        tokenManager.getEmailFromToken()?.let { binding.tvEmail.text = it }
+
         // 회원정보 불러오기
         val myId = tokenManager.getMemberId()
         if (myId != -1L) {
