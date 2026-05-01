@@ -21,8 +21,8 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="#EEEEEE"
-            android:padding="12dp"
-            android:src="@android:drawable/ic_menu_today"
+            android:padding="0dp"
+            android:src="@drawable/ic_deer"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

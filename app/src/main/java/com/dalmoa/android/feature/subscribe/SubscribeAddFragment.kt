@@ -69,8 +69,7 @@ class SubscribeAddFragment : Fragment() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-            // 백엔드 LocalDate 형식(yyyy-MM-dd)에 맞게 포맷팅
+        DatePickerDialog(requireContext(), R.style.DatePickerTheme, { _, selectedYear, selectedMonth, selectedDay ->
             val formattedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
             binding.etDate.setText(formattedDate)
         }, year, month, day).show()
