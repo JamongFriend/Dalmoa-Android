@@ -50,6 +50,14 @@ class SubscribeAddFragment : Fragment() {
             showDatePicker()
         }
 
+        binding.toggleCurrency.check(R.id.btnKrw)
+
+        binding.chipGroupCategory.setOnCheckedStateChangeListener { _, checkedIds ->
+            val isEtc = checkedIds.contains(R.id.chipAddEtc)
+            binding.tilCustomCategory.visibility = if (isEtc) View.VISIBLE else View.GONE
+            if (!isEtc) binding.etCustomCategory.setText("")
+        }
+
         binding.btnSave.setOnClickListener {
             saveSubscribe()
         }
@@ -84,12 +92,22 @@ class SubscribeAddFragment : Fragment() {
             else -> null
         }
 
+        val customCategoryTag = if (subCategory == SubCategory.ETC) {
+            binding.etCustomCategory.text.toString().trim()
+        } else null
+
         if (name.isEmpty() || priceStr.isEmpty() || date.isEmpty() || subCategory == null) {
             Toast.makeText(context, "모든 정보를 입력해주세요.", Toast.LENGTH_SHORT).show()
             return
         }
 
+        if (subCategory == SubCategory.ETC && customCategoryTag.isNullOrEmpty()) {
+            Toast.makeText(context, "카테고리 이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val price = priceStr.toDoubleOrNull() ?: 0.0
+        val currency = if (binding.toggleCurrency.checkedButtonId == R.id.btnUsd) "USD" else "KRW"
         val memberId = tokenManager.getMemberId()
         val token = tokenManager.getToken()
 
@@ -101,8 +119,10 @@ class SubscribeAddFragment : Fragment() {
         val request = SubscribeRequest(
             name = name,
             price = price,
+            currency = currency,
             date = date,
-            subCategory = subCategory
+            subCategory = subCategory,
+            customCategoryTag = customCategoryTag
         )
 
         lifecycleScope.launch {
