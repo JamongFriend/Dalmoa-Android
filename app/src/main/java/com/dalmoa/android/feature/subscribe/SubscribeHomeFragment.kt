@@ -55,8 +55,6 @@ class SubscribeHomeFragment : Fragment() {
         val memberId = tokenManager.getMemberId()
         if (memberId != -1L) {
             viewModel.loadSubscriptions(memberId)
-        } else {
-            viewModel.loadSubscriptions(1L) // 기본값 유지
         }
     }
 

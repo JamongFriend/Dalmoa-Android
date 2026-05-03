@@ -34,11 +34,10 @@ class SubscribeViewModel : ViewModel() {
     private val _error = MutableLiveData<String?>(null)
     val error: LiveData<String?> = _error
 
-    init {
-        loadSubscriptions()
-    }
+    private var currentMemberId: Long = -1L
 
-    fun loadSubscriptions(memberId: Long = 1L) {
+    fun loadSubscriptions(memberId: Long) {
+        currentMemberId = memberId
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
@@ -66,8 +65,7 @@ class SubscribeViewModel : ViewModel() {
         val cal = _currentCalendar.value ?: Calendar.getInstance()
         cal.add(Calendar.MONTH, 1)
         _currentCalendar.value = cal
-        // 달이 바뀌면 데이터를 다시 로드하거나 필터링
-        loadSubscriptions()
+        if (currentMemberId != -1L) loadSubscriptions(currentMemberId)
     }
 
     // 이전 달로 이동
@@ -75,7 +73,7 @@ class SubscribeViewModel : ViewModel() {
         val cal = _currentCalendar.value ?: Calendar.getInstance()
         cal.add(Calendar.MONTH, -1)
         _currentCalendar.value = cal
-        loadSubscriptions()
+        if (currentMemberId != -1L) loadSubscriptions(currentMemberId)
     }
 
     fun filterByCategory(category: SubCategory?) {
