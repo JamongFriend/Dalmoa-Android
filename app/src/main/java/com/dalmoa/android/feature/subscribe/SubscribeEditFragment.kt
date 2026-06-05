@@ -1,16 +1,16 @@
 package com.dalmoa.android.feature.subscribe
 
-import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.NumberPicker
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import java.util.Calendar
 import com.dalmoa.android.R
 import com.dalmoa.android.databinding.SubscribeFragmentEditBinding
 import com.dalmoa.android.model.SubCategory
@@ -26,6 +26,7 @@ class SubscribeEditFragment : Fragment() {
     private var _binding: SubscribeFragmentEditBinding? = null
     private val binding get() = _binding!!
     private var subscribe: Subscribe? = null
+    private var selectedDay: Int = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,8 +56,10 @@ class SubscribeEditFragment : Fragment() {
         subscribe?.let {
             binding.etEditServiceName.setText(it.name)
             binding.etEditPrice.setText(it.price.toString())
-            binding.etEditPaymentDate.setText(it.date.split("T")[0]) // 날짜 부분만 추출 (yyyy-MM-dd)
-            
+
+            selectedDay = it.date.substringBefore("T").split("-").getOrNull(2)?.toIntOrNull() ?: 1
+            binding.etEditPaymentDate.setText("${selectedDay}일")
+
             // 통화 설정 (기본 KRW)
             if (it.currency == "USD") {
                 binding.toggleEditCurrency.check(R.id.btn_edit_currency_usd)
@@ -78,7 +81,7 @@ class SubscribeEditFragment : Fragment() {
         }
 
         binding.etEditPaymentDate.setOnClickListener {
-            showDatePicker()
+            showDayPicker()
         }
 
         binding.btnUpdateSubscribe.setOnClickListener {
@@ -86,36 +89,37 @@ class SubscribeEditFragment : Fragment() {
         }
     }
 
-    private fun showDatePicker() {
-        val currentDate = binding.etEditPaymentDate.text.toString()
-        val calendar = Calendar.getInstance()
-
-        if (currentDate.isNotEmpty()) {
-            val parts = currentDate.split("-")
-            if (parts.size == 3) {
-                calendar.set(parts[0].toInt(), parts[1].toInt() - 1, parts[2].toInt())
-            }
+    private fun showDayPicker() {
+        val picker = NumberPicker(requireContext()).apply {
+            minValue = 1
+            maxValue = 31
+            value = selectedDay
+            displayedValues = (1..31).map { "${it}일" }.toTypedArray()
         }
-
-        DatePickerDialog(requireContext(), R.style.DatePickerTheme, { _, selectedYear, selectedMonth, selectedDay ->
-            val formattedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
-            binding.etEditPaymentDate.setText(formattedDate)
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+        AlertDialog.Builder(requireContext())
+            .setTitle("매월 결제일 선택")
+            .setView(picker)
+            .setPositiveButton("확인") { _, _ ->
+                selectedDay = picker.value
+                binding.etEditPaymentDate.setText("${selectedDay}일")
+            }
+            .setNegativeButton("취소", null)
+            .show()
     }
 
     private fun updateSubscribe() {
         val originalId = subscribe?.id ?: return
         val name = binding.etEditServiceName.text.toString().trim()
         val priceStr = binding.etEditPrice.text.toString().trim()
-        val date = binding.etEditPaymentDate.text.toString().trim()
-        
+        val date = String.format("2000-01-%02d", selectedDay)
+
         val currency = if (binding.toggleEditCurrency.checkedButtonId == R.id.btn_edit_currency_usd) "USD" else "KRW"
-        
+
         // 선택된 카테고리displayName으로 매칭
         val selectedCategoryName = binding.spinnerEditCategory.text.toString()
         val category = SubCategory.values().find { it.displayName == selectedCategoryName } ?: SubCategory.ETC
 
-        if (name.isEmpty() || priceStr.isEmpty() || date.isEmpty()) {
+        if (name.isEmpty() || priceStr.isEmpty()) {
             Toast.makeText(context, "모든 정보를 입력해주세요.", Toast.LENGTH_SHORT).show()
             return
         }

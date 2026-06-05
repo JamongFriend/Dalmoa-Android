@@ -41,6 +41,14 @@
 }
 -dontwarn kotlinx.coroutines.**
 
+# AndroidX Security Crypto (EncryptedSharedPreferences)
+-keep class androidx.security.crypto.** { *; }
+-keep class com.google.crypto.tink.** { *; }
+-dontwarn com.google.crypto.tink.**
+
+# Fragment (Navigation이 클래스명으로 리플렉션 인스턴스화)
+-keep class com.dalmoa.android.feature.** extends androidx.fragment.app.Fragment { *; }
+
 # AndroidX Navigation
 -keepnames class * extends androidx.navigation.Navigator
 

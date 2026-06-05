@@ -118,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="결제일 수정"
+            android:hint="매월 결제일 수정"
             app:startIconDrawable="@android:drawable/ic_menu_today"
             app:layout_constraintTop_toBottomOf="@id/til_edit_category">
             <com.google.android.material.textfield.TextInputEditText
