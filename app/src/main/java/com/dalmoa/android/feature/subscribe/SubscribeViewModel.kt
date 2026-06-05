@@ -99,7 +99,7 @@ class SubscribeViewModel : ViewModel() {
     }
 
     fun getTotalAmount(): Double {
-        return _filteredSubscriptions.value?.sumOf { it.price } ?: 0.0
+        return _filteredSubscriptions.value?.sumOf { it.convertedPriceKrw } ?: 0.0
     }
 
     fun getSubscriptionCount(): Int {

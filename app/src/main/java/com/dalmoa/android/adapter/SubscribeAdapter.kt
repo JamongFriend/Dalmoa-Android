@@ -32,8 +32,12 @@ class SubscribeAdapter(
                 item.category.displayName
             }
             tvCategory.text = "${categoryLabel} | ${formatDate(item.date)}"
-            tvPrice.text = "${decimalFormat.format(item.price)}원"
-            tvCurrency.text = item.currency
+            tvPrice.text = if (item.currency == "USD") {
+                "$${decimalFormat.format(item.price)} (약 ${decimalFormat.format(item.convertedPriceKrw)}원)"
+            } else {
+                "${decimalFormat.format(item.price)}원"
+            }
+            tvCurrency.visibility = android.view.View.GONE
 
             root.setOnClickListener { onItemClick(item) }
         }

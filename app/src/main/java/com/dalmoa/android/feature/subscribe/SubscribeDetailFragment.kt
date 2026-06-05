@@ -57,13 +57,18 @@ class SubscribeDetailFragment : Fragment() {
     private fun setupUI() {
         subscribe?.let {
             binding.tvDetailName.text = it.name
-            val formattedPrice = DecimalFormat("#,###").format(it.price)
+            val fmt = DecimalFormat("#,###")
             val categoryLabel = if (it.category == com.dalmoa.android.model.SubCategory.ETC && !it.customCategoryTag.isNullOrEmpty()) {
                 it.customCategoryTag
             } else {
                 it.category.displayName
             }
-            binding.tvDetailPrice.text = "${formattedPrice}원 (${categoryLabel})"
+            val priceText = if (it.currency == "USD") {
+                "$${fmt.format(it.price)} (약 ${fmt.format(it.convertedPriceKrw)}원)"
+            } else {
+                "${fmt.format(it.price)}원"
+            }
+            binding.tvDetailPrice.text = "${priceText} · ${categoryLabel}"
             binding.tvDetailDate.text = "결제일: ${formatDate(it.date)}"
         }
     }

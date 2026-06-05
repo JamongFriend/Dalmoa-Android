@@ -11,5 +11,6 @@ data class Subscribe(
     val customCategoryTag: String? = null,
     val date: String,
     val price: Double,
-    val currency: String
+    val currency: String,
+    val convertedPriceKrw: Double = 0.0
 ) : Parcelable
