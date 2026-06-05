@@ -11,7 +11,7 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 3,
+      "versionCode": 4,
       "versionName": "1.2.1",
       "outputFile": "Dalmoa_release_v.1.2.1.apk"
     }
@@ -22,14 +22,14 @@
       "minApi": 28,
       "maxApi": 30,
       "baselineProfiles": [
-        "baselineProfiles/1/app-release.dm"
+        "baselineProfiles/1/Dalmoa_release_v.1.2.1.dm"
       ]
     },
     {
       "minApi": 31,
       "maxApi": 2147483647,
       "baselineProfiles": [
-        "baselineProfiles/0/app-release.dm"
+        "baselineProfiles/0/Dalmoa_release_v.1.2.1.dm"
       ]
     }
   ],
