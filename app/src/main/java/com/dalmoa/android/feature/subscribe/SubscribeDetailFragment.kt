@@ -52,7 +52,12 @@ class SubscribeDetailFragment : Fragment() {
         subscribe?.let {
             binding.tvDetailName.text = it.name
             val formattedPrice = DecimalFormat("#,###").format(it.price)
-            binding.tvDetailPrice.text = "${formattedPrice}원 (${it.category.displayName})"
+            val categoryLabel = if (it.category == com.dalmoa.android.model.SubCategory.ETC && !it.customCategoryTag.isNullOrEmpty()) {
+                it.customCategoryTag
+            } else {
+                it.category.displayName
+            }
+            binding.tvDetailPrice.text = "${formattedPrice}원 (${categoryLabel})"
             binding.tvDetailDate.text = "결제일: ${formatDate(it.date)}"
         }
     }

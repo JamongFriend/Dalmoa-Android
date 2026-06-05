@@ -26,7 +26,12 @@ class SubscribeAdapter(
 
         with(holder.binding) {
             tvServiceName.text = item.name
-            tvCategory.text = "${item.category.displayName} | ${formatDate(item.date)}"
+            val categoryLabel = if (item.category == com.dalmoa.android.model.SubCategory.ETC && !item.customCategoryTag.isNullOrEmpty()) {
+                item.customCategoryTag
+            } else {
+                item.category.displayName
+            }
+            tvCategory.text = "${categoryLabel} | ${formatDate(item.date)}"
             tvPrice.text = "${decimalFormat.format(item.price)}원"
             tvCurrency.text = item.currency
 

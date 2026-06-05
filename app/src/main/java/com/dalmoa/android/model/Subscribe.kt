@@ -8,6 +8,7 @@ data class Subscribe(
     val id: Long? = null,
     val name: String,
     val category: SubCategory,
+    val customCategoryTag: String? = null,
     val date: String,
     val price: Double,
     val currency: String
