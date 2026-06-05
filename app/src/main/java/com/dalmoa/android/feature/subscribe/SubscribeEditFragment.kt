@@ -168,7 +168,7 @@ class SubscribeEditFragment : Fragment() {
 
                 if (response.isSuccessful) {
                     Toast.makeText(context, "수정되었습니다.", Toast.LENGTH_SHORT).show()
-                    findNavController().popBackStack()
+                    findNavController().popBackStack(R.id.navigation_home, false)
                 } else {
                     Toast.makeText(context, "수정 실패: ${response.code()}", Toast.LENGTH_SHORT).show()
                 }
