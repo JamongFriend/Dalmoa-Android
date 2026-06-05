@@ -14,8 +14,8 @@ android {
         applicationId "com.dalmoa.android"
         minSdk 24
         targetSdk 36
-        versionCode 3
-        versionName "1.2.0"
+        versionCode 4
+        versionName "1.2.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -39,6 +39,12 @@ android {
     }
     kotlinOptions {
         jvmTarget = '21'
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "Dalmoa_release_v.${variant.versionName}.apk"
+        }
     }
 }
 
