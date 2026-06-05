@@ -65,6 +65,15 @@ class MyPageFragment : Fragment() {
         binding.btnSettings.setOnClickListener {
             findNavController().navigate(R.id.action_myPage_to_settings)
         }
+
+        binding.btnLogout.setOnClickListener {
+            tokenManager.clear()
+            Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+            val navOptions = androidx.navigation.NavOptions.Builder()
+                .setPopUpTo(R.id.nav_graph, true)
+                .build()
+            findNavController().navigate(R.id.loginFragment, null, navOptions)
+        }
     }
 
     private fun observeState() {
@@ -81,7 +90,15 @@ class MyPageFragment : Fragment() {
                     }
                     is MyPageUiState.Error -> {
                         binding.pbProfileLoading.visibility = View.GONE
-                        Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                        if (tokenManager.getToken() == null) {
+                            Toast.makeText(requireContext(), "세션이 만료되었습니다. 다시 로그인해주세요.", Toast.LENGTH_SHORT).show()
+                            val navOptions = androidx.navigation.NavOptions.Builder()
+                                .setPopUpTo(R.id.nav_graph, true)
+                                .build()
+                            findNavController().navigate(R.id.loginFragment, null, navOptions)
+                        } else {
+                            Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                        }
                     }
                     else -> Unit
                 }

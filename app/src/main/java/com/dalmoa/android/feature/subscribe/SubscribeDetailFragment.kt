@@ -1,5 +1,6 @@
 package com.dalmoa.android.feature.subscribe
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +9,16 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.dalmoa.android.databinding.SubscribeFragmentDetailBinding
-
-import android.os.Build
 import com.dalmoa.android.R
-import com.dalmoa.android.model.Subscribe
+import com.dalmoa.android.core.ApiClient
+import com.dalmoa.android.core.TokenManager
 import com.dalmoa.android.core.formatDate
+import com.dalmoa.android.data.remote.api.SubscribeApi
+import com.dalmoa.android.databinding.SubscribeFragmentDetailBinding
+import com.dalmoa.android.model.Subscribe
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 
 class SubscribeDetailFragment : Fragment() {
@@ -23,6 +27,7 @@ class SubscribeDetailFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: SubscribeViewModel by viewModels()
     private var subscribe: Subscribe? = null
+    private lateinit var tokenManager: TokenManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +49,7 @@ class SubscribeDetailFragment : Fragment() {
             arguments?.getParcelable("subscribe")
         }
 
+        tokenManager = TokenManager(requireContext())
         setupUI()
         setupListeners()
     }
@@ -51,8 +57,18 @@ class SubscribeDetailFragment : Fragment() {
     private fun setupUI() {
         subscribe?.let {
             binding.tvDetailName.text = it.name
-            val formattedPrice = DecimalFormat("#,###").format(it.price)
-            binding.tvDetailPrice.text = "${formattedPrice}원 (${it.category.displayName})"
+            val fmt = DecimalFormat("#,###")
+            val categoryLabel = if (it.category == com.dalmoa.android.model.SubCategory.ETC && !it.customCategoryTag.isNullOrEmpty()) {
+                it.customCategoryTag
+            } else {
+                it.category.displayName
+            }
+            val priceText = if (it.currency == "USD") {
+                "$${fmt.format(it.price)} (약 ${fmt.format(it.convertedPriceKrw)}원)"
+            } else {
+                "${fmt.format(it.price)}원"
+            }
+            binding.tvDetailPrice.text = "${priceText} · ${categoryLabel}"
             binding.tvDetailDate.text = "결제일: ${formatDate(it.date)}"
         }
     }
@@ -79,12 +95,31 @@ class SubscribeDetailFragment : Fragment() {
             .setTitle("구독 삭제")
             .setMessage("이 구독 정보를 정말 삭제하시겠습니까?")
             .setPositiveButton("삭제") { _, _ ->
-                // 삭제 로직 호출 (ViewModel 연동)
-                Toast.makeText(context, "삭제되었습니다.", Toast.LENGTH_SHORT).show()
-                findNavController().popBackStack()
+                deleteSubscribe()
             }
             .setNegativeButton("취소", null)
             .show()
+    }
+
+    private fun deleteSubscribe() {
+        val subscribeId = subscribe?.id ?: return
+        val memberId = tokenManager.getMemberId()
+
+        lifecycleScope.launch {
+            try {
+                val api = ApiClient.retrofit.create(SubscribeApi::class.java)
+                val response = api.deleteSubscribe(subscribeId, memberId)
+
+                if (response.isSuccessful) {
+                    Toast.makeText(context, "삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                    findNavController().popBackStack()
+                } else {
+                    Toast.makeText(context, "삭제 실패: ${response.code()}", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "네트워크 오류: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onDestroyView() {

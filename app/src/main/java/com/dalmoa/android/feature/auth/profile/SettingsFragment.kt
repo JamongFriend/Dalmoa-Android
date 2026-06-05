@@ -37,12 +37,6 @@ class SettingsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        binding.btnLogout.setOnClickListener {
-            tokenManager.clear()
-            Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.loginFragment)
-        }
-
         binding.btnWithdraw.setOnClickListener {
             Toast.makeText(requireContext(), "준비 중인 기능입니다.", Toast.LENGTH_SHORT).show()
         }

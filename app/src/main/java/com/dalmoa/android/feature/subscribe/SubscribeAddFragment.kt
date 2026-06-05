@@ -1,11 +1,12 @@
 package com.dalmoa.android.feature.subscribe
 
-import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.NumberPicker
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -26,6 +27,7 @@ class SubscribeAddFragment : Fragment() {
     private var _binding: SubscribeFragmentAddBinding? = null
     private val binding get() = _binding!!
     private lateinit var tokenManager: TokenManager
+    private var selectedDay: Int = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,8 +48,9 @@ class SubscribeAddFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        binding.etDate.setText("${selectedDay}일")
         binding.etDate.setOnClickListener {
-            showDatePicker()
+            showDayPicker()
         }
 
         binding.toggleCurrency.check(R.id.btnKrw)
@@ -63,23 +66,29 @@ class SubscribeAddFragment : Fragment() {
         }
     }
 
-    private fun showDatePicker() {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        DatePickerDialog(requireContext(), R.style.DatePickerTheme, { _, selectedYear, selectedMonth, selectedDay ->
-            val formattedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
-            binding.etDate.setText(formattedDate)
-        }, year, month, day).show()
+    private fun showDayPicker() {
+        val picker = NumberPicker(requireContext()).apply {
+            minValue = 1
+            maxValue = 31
+            value = selectedDay
+            displayedValues = (1..31).map { "${it}일" }.toTypedArray()
+        }
+        AlertDialog.Builder(requireContext())
+            .setTitle("매월 결제일 선택")
+            .setView(picker)
+            .setPositiveButton("확인") { _, _ ->
+                selectedDay = picker.value
+                binding.etDate.setText("${selectedDay}일")
+            }
+            .setNegativeButton("취소", null)
+            .show()
     }
 
     private fun saveSubscribe() {
         val name = binding.etName.text.toString().trim()
         val priceStr = binding.etPrice.text.toString().trim()
-        val date = binding.etDate.text.toString().trim()
-        
+        val date = String.format("2000-01-%02d", selectedDay)
+
         // 선택된 카테고리 가져오기
         val subCategory = when (binding.chipGroupCategory.checkedChipId) {
             R.id.chipAddOtt -> SubCategory.OTT
@@ -95,7 +104,7 @@ class SubscribeAddFragment : Fragment() {
             binding.etCustomCategory.text.toString().trim()
         } else null
 
-        if (name.isEmpty() || priceStr.isEmpty() || date.isEmpty() || subCategory == null) {
+        if (name.isEmpty() || priceStr.isEmpty() || subCategory == null) {
             Toast.makeText(context, "모든 정보를 입력해주세요.", Toast.LENGTH_SHORT).show()
             return
         }

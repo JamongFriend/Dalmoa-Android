@@ -26,9 +26,18 @@ class SubscribeAdapter(
 
         with(holder.binding) {
             tvServiceName.text = item.name
-            tvCategory.text = "${item.category.displayName} | ${formatDate(item.date)}"
-            tvPrice.text = "${decimalFormat.format(item.price)}원"
-            tvCurrency.text = item.currency
+            val categoryLabel = if (item.category == com.dalmoa.android.model.SubCategory.ETC && !item.customCategoryTag.isNullOrEmpty()) {
+                item.customCategoryTag
+            } else {
+                item.category.displayName
+            }
+            tvCategory.text = "${categoryLabel} | ${formatDate(item.date)}"
+            tvPrice.text = if (item.currency == "USD") {
+                "$${decimalFormat.format(item.price)} (약 ${decimalFormat.format(item.convertedPriceKrw)}원)"
+            } else {
+                "${decimalFormat.format(item.price)}원"
+            }
+            tvCurrency.visibility = android.view.View.GONE
 
             root.setOnClickListener { onItemClick(item) }
         }

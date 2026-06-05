@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.dalmoa.android.core.TokenManager
 import com.dalmoa.android.databinding.SubscribeFragmentStatsBinding
 import java.text.DecimalFormat
 
@@ -27,6 +28,14 @@ class SubscribeStatsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val memberId = TokenManager(requireContext()).getMemberId()
+        if (memberId != -1L) {
+            viewModel.loadSubscriptions(memberId)
+        }
     }
 
     private fun observeViewModel() {

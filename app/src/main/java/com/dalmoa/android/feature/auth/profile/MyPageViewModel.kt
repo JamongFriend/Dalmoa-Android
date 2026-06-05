@@ -29,7 +29,7 @@ class MyPageViewModel(private val repository: MemberRepository) : ViewModel() {
                 if (response.isSuccessful) {
                     _state.value = MyPageUiState.Success(response.body()!!)
                 } else {
-                    _state.value = MyPageUiState.Error("정보 불러오기 실해")
+                    _state.value = MyPageUiState.Error("정보 불러오기 실패")
                 }
             } catch (e: Exception) {
                 _state.value = MyPageUiState.Error(e.message ?: "알 수 없는 오류")
