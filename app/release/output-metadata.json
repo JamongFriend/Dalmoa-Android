@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 2,
-      "versionName": "1.1.0",
-      "outputFile": "app-release.apk"
+      "versionCode": 3,
+      "versionName": "1.2.1",
+      "outputFile": "Dalmoa_release_v.1.2.1.apk"
     }
   ],
   "elementType": "File",
