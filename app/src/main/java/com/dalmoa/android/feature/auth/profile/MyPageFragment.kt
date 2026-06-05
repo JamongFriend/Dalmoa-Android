@@ -65,6 +65,15 @@ class MyPageFragment : Fragment() {
         binding.btnSettings.setOnClickListener {
             findNavController().navigate(R.id.action_myPage_to_settings)
         }
+
+        binding.btnLogout.setOnClickListener {
+            tokenManager.clear()
+            Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+            val navOptions = androidx.navigation.NavOptions.Builder()
+                .setPopUpTo(R.id.nav_graph, true)
+                .build()
+            findNavController().navigate(R.id.loginFragment, null, navOptions)
+        }
     }
 
     private fun observeState() {
