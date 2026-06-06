@@ -1,5 +1,6 @@
 package com.dalmoa.android.feature.auth.signup
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.dalmoa.android.data.remote.dto.auth.SignUpRequest
 import com.dalmoa.android.data.repository.AuthRepository
 import com.dalmoa.android.databinding.AuthFragmentSignupBinding
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class SignupFragment : Fragment() {
     private var _binding: AuthFragmentSignupBinding? = null
@@ -48,12 +50,29 @@ class SignupFragment : Fragment() {
             findNavController().popBackStack()
         }
 
+        binding.etSignupBirthDate.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            DatePickerDialog(
+                requireContext(),
+                { _, year, month, dayOfMonth ->
+                    val month1Based = month + 1
+                    binding.etSignupBirthDate.setText("${year}년 ${month1Based}월 ${dayOfMonth}일")
+                    binding.etSignupBirthDate.tag = "%04d-%02d-%02d".format(year, month1Based, dayOfMonth)
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+
         binding.btnSignup.setOnClickListener {
             val name = binding.etSignupName.text.toString().trim()
             val email = binding.etSignupEmail.text.toString().trim()
             val password = binding.etSignupPassword.text.toString().trim()
+            val confirmPassword = binding.etSignupConfirmPassword.text.toString().trim()
+            val birthDate = binding.etSignupBirthDate.tag as? String
 
-            if (name.isBlank() || email.isBlank() || password.isBlank()) {
+            if (name.isBlank() || email.isBlank() || password.isBlank() || confirmPassword.isBlank() || birthDate == null) {
                 Toast.makeText(requireContext(), "모든 필드를 입력해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -63,10 +82,17 @@ class SignupFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            if (password != confirmPassword) {
+                Toast.makeText(requireContext(), "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val request = SignUpRequest(
                 email = email,
                 name = name,
-                password = password
+                password = password,
+                confirmPassword = confirmPassword,
+                birthDate = birthDate
             )
             viewModel.signup(request)
         }
