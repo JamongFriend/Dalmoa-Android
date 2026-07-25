@@ -44,7 +44,7 @@ class ProfileEditFragment : Fragment() {
 
         currentMemberId = tokenManager.getMemberId()
         if (currentMemberId != -1L) {
-            viewModel.getMember(currentMemberId)
+            viewModel.getMember()
         }
     }
 
@@ -63,7 +63,7 @@ class ProfileEditFragment : Fragment() {
         binding.tvProfileEditSave.setOnClickListener {
             val newName = binding.etProfileEditNickname.text.toString().trim()
             if (newName.isNotEmpty()) {
-                viewModel.updateMember(currentMemberId, newName)
+                viewModel.updateMember(newName)
             } else {
                 Toast.makeText(requireContext(), "이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
             }

@@ -13,7 +13,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.dalmoa.android.R
 import com.dalmoa.android.core.ApiClient
-import com.dalmoa.android.core.TokenManager
 import com.dalmoa.android.core.formatDate
 import com.dalmoa.android.data.remote.api.SubscribeApi
 import com.dalmoa.android.databinding.SubscribeFragmentDetailBinding
@@ -27,7 +26,6 @@ class SubscribeDetailFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: SubscribeViewModel by viewModels()
     private var subscribe: Subscribe? = null
-    private lateinit var tokenManager: TokenManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +47,6 @@ class SubscribeDetailFragment : Fragment() {
             arguments?.getParcelable("subscribe")
         }
 
-        tokenManager = TokenManager(requireContext())
         setupUI()
         setupListeners()
     }
@@ -103,12 +100,11 @@ class SubscribeDetailFragment : Fragment() {
 
     private fun deleteSubscribe() {
         val subscribeId = subscribe?.id ?: return
-        val memberId = tokenManager.getMemberId()
 
         lifecycleScope.launch {
             try {
                 val api = ApiClient.retrofit.create(SubscribeApi::class.java)
-                val response = api.deleteSubscribe(subscribeId, memberId)
+                val response = api.deleteSubscribe(subscribeId)
 
                 if (response.isSuccessful) {
                     Toast.makeText(context, "삭제되었습니다.", Toast.LENGTH_SHORT).show()

@@ -21,15 +21,15 @@ class MyPageViewModel(private val repository: MemberRepository) : ViewModel() {
     private val _state = MutableStateFlow<MyPageUiState>(MyPageUiState.Idle)
     val state: StateFlow<MyPageUiState> = _state
 
-    fun getMember(memberId: Long) {
+    fun getMember() {
         viewModelScope.launch {
             _state.value = MyPageUiState.Loading
             try {
-                val response = repository.getMember(memberId)
+                val response = repository.getMember()
                 if (response.isSuccessful) {
                     _state.value = MyPageUiState.Success(response.body()!!)
                 } else {
-                    _state.value = MyPageUiState.Error("정보 불러오기 실패")
+                    _state.value = MyPageUiState.Error("정보 불러오기 실패 (${response.code()})")
                 }
             } catch (e: Exception) {
                 _state.value = MyPageUiState.Error(e.message ?: "알 수 없는 오류")

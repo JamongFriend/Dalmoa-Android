@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dalmoa.android.R
 import com.dalmoa.android.adapter.SubscribeAdapter
-import com.dalmoa.android.core.TokenManager
 import com.dalmoa.android.databinding.SubscribeFragmentListBinding
 
 class SubscribeListFragment : Fragment() {
@@ -46,11 +45,7 @@ class SubscribeListFragment : Fragment() {
     }
 
     private fun loadData() {
-        val tokenManager = TokenManager(requireContext())
-        val memberId = tokenManager.getMemberId()
-        if (memberId != -1L) {
-            viewModel.loadSubscriptions(memberId)
-        }
+        viewModel.loadSubscriptions()
     }
 
     private fun setupRecyclerView() {

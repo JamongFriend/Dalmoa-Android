@@ -136,7 +136,7 @@ class SubscribeAddFragment : Fragment() {
         lifecycleScope.launch {
             try {
                 val api = ApiClient.retrofit.create(SubscribeApi::class.java)
-                val response = api.createSubscribe(memberId, request)
+                val response = api.createSubscribe(request)
                 
                 if (response.isSuccessful) {
                     Toast.makeText(context, "${name} 구독이 추가되었습니다.", Toast.LENGTH_SHORT).show()

@@ -11,12 +11,11 @@ import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface SubscribeApi {
-    @GET("api/subscribe/list/{memberId}")
-    suspend fun getSubscriptions(@Path("memberId") memberId: Long): Response<List<Subscribe>>
+    @GET("api/subscribe/list")
+    suspend fun getSubscriptions(): Response<List<Subscribe>>
 
-    @POST("api/subscribe/{memberId}")
+    @POST("api/subscribe")
     suspend fun createSubscribe(
-        @Path("memberId") memberId: Long,
         @Body request: SubscribeRequest
     ): Response<Subscribe>
 
@@ -26,9 +25,8 @@ interface SubscribeApi {
         @Body request: SubscribeRequest
     ): Response<Subscribe>
 
-    @DELETE("api/subscribe/{subscribeId}/{memberId}")
+    @DELETE("api/subscribe/{subscribeId}")
     suspend fun deleteSubscribe(
-        @Path("subscribeId") subscribeId: Long,
-        @Path("memberId") memberId: Long
+        @Path("subscribeId") subscribeId: Long
     ): Response<Void>
 }

@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dalmoa.android.R
 import com.dalmoa.android.adapter.SubscribeAdapter
 import com.dalmoa.android.core.ApiClient
-import com.dalmoa.android.core.TokenManager
 import com.dalmoa.android.databinding.SubscribeFragmentHomeBinding
 import com.dalmoa.android.model.SubCategory
 import com.dalmoa.android.model.Subscribe
@@ -51,11 +50,7 @@ class SubscribeHomeFragment : Fragment() {
     // 구독 추가 후 돌아왔을 때 데이터 갱신을 위해 onResume 사용
     override fun onResume() {
         super.onResume()
-        val tokenManager = TokenManager(requireContext())
-        val memberId = tokenManager.getMemberId()
-        if (memberId != -1L) {
-            viewModel.loadSubscriptions(memberId)
-        }
+        viewModel.loadSubscriptions()
     }
 
     private fun setupRecyclerView() {

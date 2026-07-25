@@ -46,7 +46,7 @@ class MyPageFragment : Fragment() {
         // 회원정보 불러오기
         val myId = tokenManager.getMemberId()
         if (myId != -1L) {
-            viewModel.getMember(myId)
+            viewModel.getMember()
         }
     }
 
