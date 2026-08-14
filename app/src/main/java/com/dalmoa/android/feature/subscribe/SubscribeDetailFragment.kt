@@ -65,8 +65,8 @@ class SubscribeDetailFragment : Fragment() {
             } else {
                 "${fmt.format(it.price)}원"
             }
-            binding.tvDetailPrice.text = "${priceText} · ${categoryLabel}"
-            binding.tvDetailDate.text = "결제일: ${formatDate(it.date)}"
+            binding.tvDetailPrice.text = "${priceText} / ${it.term.displayName} · ${categoryLabel}"
+            binding.tvDetailDate.text = "결제일: ${formatDate(it.date, it.term)}"
         }
     }
 

@@ -12,5 +12,6 @@ data class Subscribe(
     val date: String,
     val price: Double,
     val currency: String,
+    val term: Term = Term.MONTH,
     val convertedPriceKrw: Double = 0.0
 ) : Parcelable
