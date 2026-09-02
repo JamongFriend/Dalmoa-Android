@@ -8,6 +8,7 @@ import com.dalmoa.android.core.ApiClient
 import com.dalmoa.android.data.remote.api.SubscribeApi
 import com.dalmoa.android.model.SubCategory
 import com.dalmoa.android.model.Subscribe
+import com.dalmoa.android.model.Term
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -100,5 +101,19 @@ class SubscribeViewModel : ViewModel() {
 
     fun getSubscriptionCount(): Int {
         return _filteredSubscriptions.value?.size ?: 0
+    }
+
+    // 결제 주기(주/월/연)별 지출 합계 계산
+    fun getSpendingByTerm(): Map<Term, Double> {
+        return _subscriptions.value?.groupBy { it.term }
+            ?.mapValues { entry -> entry.value.sumOf { it.convertedPriceKrw } }
+            ?: emptyMap()
+    }
+
+    // 결제 주기(주/월/연)별 구독 개수 계산
+    fun getCountByTerm(): Map<Term, Int> {
+        return _subscriptions.value?.groupBy { it.term }
+            ?.mapValues { entry -> entry.value.size }
+            ?: emptyMap()
     }
 }
