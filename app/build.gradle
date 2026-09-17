@@ -38,7 +38,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            // 인텔리제이에서 로컬로 띄운 백엔드 (에뮬레이터 기준 10.0.2.2 = 호스트 PC의 localhost)
+            buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:8080/\""
+        }
         release {
+            buildConfigField "String", "BASE_URL", "\"https://dalmoa.duckdns.org/\""
             // 난독화 및 코드 최적화 활성화
             minifyEnabled true
             // 미사용 리소스 제거
