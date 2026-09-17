@@ -1,5 +1,6 @@
 package com.dalmoa.android.feature.subscribe
 
+import android.app.DatePickerDialog
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,12 +20,16 @@ import com.dalmoa.android.model.Term
 import com.dalmoa.android.core.ApiClient
 import com.dalmoa.android.core.WEEKDAY_NAMES
 import com.dalmoa.android.core.decodeMonthDay
+import com.dalmoa.android.core.decodeStartDay
+import com.dalmoa.android.core.decodeStartMonth
+import com.dalmoa.android.core.decodeStartYear
 import com.dalmoa.android.core.decodeWeekday
 import com.dalmoa.android.core.decodeYearDay
 import com.dalmoa.android.core.decodeYearMonth
 import com.dalmoa.android.core.encodeMonthDate
 import com.dalmoa.android.core.encodeWeekDate
 import com.dalmoa.android.core.encodeYearDate
+import java.util.Calendar
 import com.dalmoa.android.data.remote.api.SubscribeApi
 import com.dalmoa.android.data.remote.dto.subscribe.SubscribeRequest
 import androidx.lifecycle.lifecycleScope
@@ -40,6 +45,8 @@ class SubscribeEditFragment : Fragment() {
     private var selectedWeekday: Int = 1
     private var selectedYearMonth: Int = 1
     private var selectedYearDay: Int = 1
+    // 구독 시작일 (기존 구독의 date에서 복원, 사용자가 다시 수정 가능)
+    private var selectedStartDate: Calendar = Calendar.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,6 +77,9 @@ class SubscribeEditFragment : Fragment() {
             binding.etEditPrice.setText(it.price.toString())
 
             selectedTerm = it.term
+            selectedStartDate = Calendar.getInstance().apply {
+                set(decodeStartYear(it.date), decodeStartMonth(it.date) - 1, decodeStartDay(it.date))
+            }
             when (it.term) {
                 Term.WEEK -> selectedWeekday = decodeWeekday(it.date)
                 Term.YEAR -> {
@@ -79,6 +89,7 @@ class SubscribeEditFragment : Fragment() {
                 Term.MONTH -> selectedDay = decodeMonthDay(it.date)
             }
             updateDateField()
+            updateStartDateField()
 
             if (it.currency == "USD") {
                 binding.toggleEditCurrency.check(R.id.btn_edit_currency_usd)
@@ -123,6 +134,10 @@ class SubscribeEditFragment : Fragment() {
             }
         }
 
+        binding.etEditStartDate.setOnClickListener {
+            showStartDatePicker()
+        }
+
         binding.chipGroupEditTerm.setOnCheckedStateChangeListener { _, checkedIds ->
             selectedTerm = when (checkedIds.firstOrNull()) {
                 R.id.chipEditTermWeek -> Term.WEEK
@@ -156,6 +171,26 @@ class SubscribeEditFragment : Fragment() {
                 Term.MONTH -> "${selectedDay}일"
             }
         )
+    }
+
+    private fun updateStartDateField() {
+        val y = selectedStartDate.get(Calendar.YEAR)
+        val m = selectedStartDate.get(Calendar.MONTH) + 1
+        val d = selectedStartDate.get(Calendar.DAY_OF_MONTH)
+        binding.etEditStartDate.setText("%04d.%02d.%02d".format(y, m, d))
+    }
+
+    private fun showStartDatePicker() {
+        DatePickerDialog(
+            requireContext(),
+            { _, year, month, dayOfMonth ->
+                selectedStartDate = Calendar.getInstance().apply { set(year, month, dayOfMonth) }
+                updateStartDateField()
+            },
+            selectedStartDate.get(Calendar.YEAR),
+            selectedStartDate.get(Calendar.MONTH),
+            selectedStartDate.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
     private fun showDayPicker() {
@@ -228,10 +263,13 @@ class SubscribeEditFragment : Fragment() {
         val originalId = subscribe?.id ?: return
         val name = binding.etEditServiceName.text.toString().trim()
         val priceStr = binding.etEditPrice.text.toString().trim()
+        val startYear = selectedStartDate.get(Calendar.YEAR)
+        val startMonth = selectedStartDate.get(Calendar.MONTH) + 1
+        val startDay = selectedStartDate.get(Calendar.DAY_OF_MONTH)
         val date = when (selectedTerm) {
-            Term.WEEK -> encodeWeekDate(selectedWeekday)
-            Term.YEAR -> encodeYearDate(selectedYearMonth, selectedYearDay)
-            Term.MONTH -> encodeMonthDate(selectedDay)
+            Term.WEEK -> encodeWeekDate(startYear, startMonth, startDay, selectedWeekday)
+            Term.YEAR -> encodeYearDate(startYear, selectedYearMonth, selectedYearDay)
+            Term.MONTH -> encodeMonthDate(startYear, startMonth, selectedDay)
         }
         val currency = if (binding.toggleEditCurrency.checkedButtonId == R.id.btn_edit_currency_usd) "USD" else "KRW"
 

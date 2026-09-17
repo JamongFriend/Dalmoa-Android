@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.app.DatePickerDialog
 import android.widget.LinearLayout
 import android.widget.NumberPicker
 import android.widget.Toast
@@ -41,6 +42,8 @@ class SubscribeAddFragment : Fragment() {
     }
     private var selectedYearMonth: Int = Calendar.getInstance().get(Calendar.MONTH) + 1
     private var selectedYearDay: Int = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+    // 구독을 실제로 시작한 날짜 (기본값: 오늘), 서버의 구독 시작월 판단 기준으로 전송됨
+    private var selectedStartDate: Calendar = Calendar.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,6 +71,11 @@ class SubscribeAddFragment : Fragment() {
                 Term.YEAR -> showYearPicker()
                 Term.MONTH -> showDayPicker()
             }
+        }
+
+        updateStartDateField()
+        binding.etStartDate.setOnClickListener {
+            showStartDatePicker()
         }
 
         binding.toggleCurrency.check(R.id.btnKrw)
@@ -105,6 +113,26 @@ class SubscribeAddFragment : Fragment() {
                 Term.MONTH -> "${selectedDay}일"
             }
         )
+    }
+
+    private fun updateStartDateField() {
+        val y = selectedStartDate.get(Calendar.YEAR)
+        val m = selectedStartDate.get(Calendar.MONTH) + 1
+        val d = selectedStartDate.get(Calendar.DAY_OF_MONTH)
+        binding.etStartDate.setText("%04d.%02d.%02d".format(y, m, d))
+    }
+
+    private fun showStartDatePicker() {
+        DatePickerDialog(
+            requireContext(),
+            { _, year, month, dayOfMonth ->
+                selectedStartDate = Calendar.getInstance().apply { set(year, month, dayOfMonth) }
+                updateStartDateField()
+            },
+            selectedStartDate.get(Calendar.YEAR),
+            selectedStartDate.get(Calendar.MONTH),
+            selectedStartDate.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
     private fun showDayPicker() {
@@ -176,10 +204,13 @@ class SubscribeAddFragment : Fragment() {
     private fun saveSubscribe() {
         val name = binding.etName.text.toString().trim()
         val priceStr = binding.etPrice.text.toString().trim()
+        val startYear = selectedStartDate.get(Calendar.YEAR)
+        val startMonth = selectedStartDate.get(Calendar.MONTH) + 1
+        val startDay = selectedStartDate.get(Calendar.DAY_OF_MONTH)
         val date = when (selectedTerm) {
-            Term.WEEK -> encodeWeekDate(selectedWeekday)
-            Term.YEAR -> encodeYearDate(selectedYearMonth, selectedYearDay)
-            Term.MONTH -> encodeMonthDate(selectedDay)
+            Term.WEEK -> encodeWeekDate(startYear, startMonth, startDay, selectedWeekday)
+            Term.YEAR -> encodeYearDate(startYear, selectedYearMonth, selectedYearDay)
+            Term.MONTH -> encodeMonthDate(startYear, startMonth, selectedDay)
         }
 
         // 선택된 카테고리 가져오기
