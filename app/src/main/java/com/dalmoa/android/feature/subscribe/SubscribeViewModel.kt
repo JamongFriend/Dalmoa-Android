@@ -6,10 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dalmoa.android.core.ApiClient
 import com.dalmoa.android.data.remote.api.SubscribeApi
+import com.dalmoa.android.model.MonthSpending
 import com.dalmoa.android.model.SubCategory
 import com.dalmoa.android.model.Subscribe
 import com.dalmoa.android.model.SubscribeDashboard
 import com.dalmoa.android.model.Term
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -38,6 +41,12 @@ class SubscribeViewModel : ViewModel() {
 
     private val _dashboard = MutableLiveData<SubscribeDashboard?>(null)
     val dashboard: LiveData<SubscribeDashboard?> = _dashboard
+
+    private val _monthlySpendings = MutableLiveData<List<MonthSpending>>(emptyList())
+    val monthlySpendings: LiveData<List<MonthSpending>> = _monthlySpendings
+
+    private val _isMonthlyLoading = MutableLiveData<Boolean>(false)
+    val isMonthlyLoading: LiveData<Boolean> = _isMonthlyLoading
 
     fun loadSubscriptions() {
         val (year, month) = currentYearMonth()
@@ -72,6 +81,30 @@ class SubscribeViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+            }
+        }
+    }
+
+    // 현재 보고 있는 달 기준으로 최근 monthsBack개월(현재 달 포함)치 지출 합계를 불러옴
+    fun loadMonthlySpendings(monthsBack: Int = 12) {
+        val baseCal = _currentCalendar.value ?: Calendar.getInstance()
+        viewModelScope.launch {
+            _isMonthlyLoading.value = true
+            try {
+                val results = (0 until monthsBack).map { offset ->
+                    async {
+                        val cal = (baseCal.clone() as Calendar).apply { add(Calendar.MONTH, -offset) }
+                        val year = cal.get(Calendar.YEAR)
+                        val month = cal.get(Calendar.MONTH) + 1
+                        val response = subscribeApi.getDashboard(year, month)
+                        MonthSpending(year, month, response.body()?.totalAmount ?: 0.0)
+                    }
+                }.awaitAll()
+                _monthlySpendings.value = results
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
+                _isMonthlyLoading.value = false
             }
         }
     }

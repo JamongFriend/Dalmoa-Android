@@ -41,9 +41,13 @@ class SubscribeHomeFragment : Fragment() {
         setupCategoryFilter()
         setupDateNavigation()
         observeViewModel()
-        
+
         binding.fabAdd.setOnClickListener {
             findNavController().navigate(R.id.subscribeAddFragment)
+        }
+
+        binding.cardSummary.setOnClickListener {
+            MonthlySpendingDialogFragment().show(childFragmentManager, "MonthlySpendingDialog")
         }
     }
 
