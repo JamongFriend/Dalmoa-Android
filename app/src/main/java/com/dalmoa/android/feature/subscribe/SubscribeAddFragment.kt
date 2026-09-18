@@ -16,6 +16,7 @@ import com.dalmoa.android.R
 import com.dalmoa.android.core.ApiClient
 import com.dalmoa.android.core.TokenManager
 import com.dalmoa.android.core.WEEKDAY_NAMES
+import com.dalmoa.android.core.attachDateInputFormatter
 import com.dalmoa.android.core.encodeMonthDate
 import com.dalmoa.android.core.encodeWeekDate
 import com.dalmoa.android.core.encodeYearDate
@@ -74,8 +75,11 @@ class SubscribeAddFragment : Fragment() {
         }
 
         updateStartDateField()
-        binding.etStartDate.setOnClickListener {
+        binding.tilStartDate.setEndIconOnClickListener {
             showStartDatePicker()
+        }
+        attachDateInputFormatter(binding.etStartDate) { year, month, day ->
+            selectedStartDate = Calendar.getInstance().apply { set(year, month - 1, day) }
         }
 
         binding.toggleCurrency.check(R.id.btnKrw)
@@ -232,6 +236,11 @@ class SubscribeAddFragment : Fragment() {
 
         if (name.isEmpty() || priceStr.isEmpty() || subCategory == null) {
             Toast.makeText(context, "모든 정보를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (binding.etStartDate.text.toString().filter { it.isDigit() }.length != 8) {
+            Toast.makeText(context, "구독 시작일을 올바르게 입력해주세요. (예: 20261010)", Toast.LENGTH_SHORT).show()
             return
         }
 

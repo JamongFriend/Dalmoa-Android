@@ -1,5 +1,8 @@
 package com.dalmoa.android.core
 
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 import com.dalmoa.android.model.Term
 import java.util.Calendar
 
@@ -58,6 +61,47 @@ fun decodeWeekday(dateStr: String): Int {
 fun decodeYearMonth(dateStr: String): Int = parseDateParts(dateStr).second
 fun decodeYearDay(dateStr: String): Int = parseDateParts(dateStr).third
 fun decodeMonthDay(dateStr: String): Int = parseDateParts(dateStr).third
+
+// "20261010" 같은 숫자 입력을 "2026.10.10" 형식으로 자동 포맷하고,
+// 8자리가 모두 입력되면 onDateChanged로 연/월/일을 전달 (달력 아이콘 탭 시 직접 setText할 때도 재사용됨)
+fun attachDateInputFormatter(editText: EditText, onDateChanged: (year: Int, month: Int, day: Int) -> Unit) {
+    editText.addTextChangedListener(object : TextWatcher {
+        private var isFormatting = false
+        private var lastDigits = ""
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+        override fun afterTextChanged(s: Editable?) {
+            if (isFormatting) return
+
+            val digits = s.toString().filter { it.isDigit() }.take(8)
+            if (digits == lastDigits) return
+            lastDigits = digits
+
+            val formatted = buildString {
+                digits.forEachIndexed { i, c ->
+                    append(c)
+                    if (i == 3 || i == 5) append(".")
+                }
+            }
+
+            isFormatting = true
+            editText.setText(formatted)
+            editText.setSelection(formatted.length)
+            isFormatting = false
+
+            if (digits.length == 8) {
+                val year = digits.substring(0, 4).toInt()
+                val month = digits.substring(4, 6).toInt()
+                val day = digits.substring(6, 8).toInt()
+                if (month in 1..12 && day in 1..31) {
+                    onDateChanged(year, month, day)
+                }
+            }
+        }
+    })
+}
 
 fun formatDate(dateStr: String, term: Term): String {
     return try {
