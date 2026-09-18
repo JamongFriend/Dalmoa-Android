@@ -19,6 +19,7 @@ import com.dalmoa.android.model.Subscribe
 import com.dalmoa.android.model.Term
 import com.dalmoa.android.core.ApiClient
 import com.dalmoa.android.core.WEEKDAY_NAMES
+import com.dalmoa.android.core.attachDateInputFormatter
 import com.dalmoa.android.core.decodeMonthDay
 import com.dalmoa.android.core.decodeStartDay
 import com.dalmoa.android.core.decodeStartMonth
@@ -134,8 +135,11 @@ class SubscribeEditFragment : Fragment() {
             }
         }
 
-        binding.etEditStartDate.setOnClickListener {
+        binding.tilEditStartDate.setEndIconOnClickListener {
             showStartDatePicker()
+        }
+        attachDateInputFormatter(binding.etEditStartDate) { year, month, day ->
+            selectedStartDate = Calendar.getInstance().apply { set(year, month - 1, day) }
         }
 
         binding.chipGroupEditTerm.setOnCheckedStateChangeListener { _, checkedIds ->
@@ -291,6 +295,11 @@ class SubscribeEditFragment : Fragment() {
 
         if (name.isEmpty() || priceStr.isEmpty() || subCategory == null) {
             Toast.makeText(context, "모든 정보를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (binding.etEditStartDate.text.toString().filter { it.isDigit() }.length != 8) {
+            Toast.makeText(context, "구독 시작일을 올바르게 입력해주세요. (예: 20261010)", Toast.LENGTH_SHORT).show()
             return
         }
 
