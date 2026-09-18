@@ -23,11 +23,11 @@ class ProfileEditViewModel(private val repository: MemberRepository) : ViewModel
     private val _state = MutableStateFlow<ProfileEditUiState>(ProfileEditUiState.Idle)
     val state: StateFlow<ProfileEditUiState> = _state
 
-    fun getMember(memberId: Long) {
+    fun getMember() {
         viewModelScope.launch {
             _state.value = ProfileEditUiState.Loading
             try {
-                val response = repository.getMember(memberId)
+                val response = repository.getMember()
                 if (response.isSuccessful) {
                     _state.value = ProfileEditUiState.LoadSuccess(response.body()!!)
                 } else {
@@ -39,12 +39,12 @@ class ProfileEditViewModel(private val repository: MemberRepository) : ViewModel
         }
     }
 
-    fun updateMember(memberId: Long, nickname: String) {
+    fun updateMember(nickname: String) {
         viewModelScope.launch {
             _state.value = ProfileEditUiState.Loading
             try {
                 val request = ProfileUpdateRequest(name = nickname)
-                val response = repository.updateMember(memberId, request)
+                val response = repository.updateMember(request)
                 if (response.isSuccessful) {
                     _state.value = ProfileEditUiState.UpdateSuccess
                 } else {

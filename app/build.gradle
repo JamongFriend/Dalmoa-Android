@@ -4,6 +4,12 @@ plugins {
     id 'kotlin-parcelize'
 }
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace 'com.dalmoa.android'
     compileSdk {
@@ -14,19 +20,36 @@ android {
         applicationId "com.dalmoa.android"
         minSdk 24
         targetSdk 36
-        versionCode 3
-        versionName "1.2.0"
+        versionCode 5
+        versionName "1.3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
+    signingConfigs {
         release {
+            if (keystorePropertiesFile.exists()) {
+                storeFile rootProject.file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            // 인텔리제이에서 로컬로 띄운 백엔드 (에뮬레이터 기준 10.0.2.2 = 호스트 PC의 localhost)
+            buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:8080/\""
+        }
+        release {
+            buildConfigField "String", "BASE_URL", "\"https://dalmoa.duckdns.org/\""
             // 난독화 및 코드 최적화 활성화
             minifyEnabled true
             // 미사용 리소스 제거
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     buildFeatures {
@@ -39,6 +62,12 @@ android {
     }
     kotlinOptions {
         jvmTarget = '21'
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "Dalmoa_release_v.${variant.versionName}.apk"
+        }
     }
 }
 

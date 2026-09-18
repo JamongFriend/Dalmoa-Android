@@ -31,11 +31,16 @@ class SubscribeAdapter(
             } else {
                 item.category.displayName
             }
-            tvCategory.text = "${categoryLabel} | ${formatDate(item.date)}"
+            tvCategory.text = "${categoryLabel} | ${formatDate(item.date, item.term)}"
+            val termSuffix = when (item.term) {
+                com.dalmoa.android.model.Term.WEEK -> " / 주"
+                com.dalmoa.android.model.Term.MONTH -> " / 월"
+                com.dalmoa.android.model.Term.YEAR -> " / 년"
+            }
             tvPrice.text = if (item.currency == "USD") {
-                "$${decimalFormat.format(item.price)} (약 ${decimalFormat.format(item.convertedPriceKrw)}원)"
+                "$${decimalFormat.format(item.price)} (약 ${decimalFormat.format(item.convertedPriceKrw)}원)${termSuffix}"
             } else {
-                "${decimalFormat.format(item.price)}원"
+                "${decimalFormat.format(item.price)}원${termSuffix}"
             }
             tvCurrency.visibility = android.view.View.GONE
 

@@ -6,18 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.dalmoa.android.R
-import com.dalmoa.android.adapter.SubscribeAdapter
-import com.dalmoa.android.core.TokenManager
 import com.dalmoa.android.databinding.SubscribeFragmentListBinding
+import com.dalmoa.android.model.Term
+import java.text.DecimalFormat
 
 class SubscribeListFragment : Fragment() {
 
     private var _binding: SubscribeFragmentListBinding? = null
     private val binding get() = _binding!!
-    private lateinit var subscribeAdapter: SubscribeAdapter
     private val viewModel: SubscribeViewModel by viewModels()
 
     override fun onCreateView(
@@ -31,44 +27,45 @@ class SubscribeListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupRecyclerView()
         observeViewModel()
-        
-        binding.fabAddSubscribe.setOnClickListener {
-            findNavController().navigate(R.id.subscribeAddFragment)
-        }
     }
 
     override fun onResume() {
         super.onResume()
-        loadData()
-    }
-
-    private fun loadData() {
-        val tokenManager = TokenManager(requireContext())
-        val memberId = tokenManager.getMemberId()
-        if (memberId != -1L) {
-            viewModel.loadSubscriptions(memberId)
-        }
-    }
-
-    private fun setupRecyclerView() {
-        subscribeAdapter = SubscribeAdapter(emptyList()) { item ->
-            val bundle = Bundle().apply {
-                putParcelable("subscribe", item)
-            }
-            findNavController().navigate(R.id.subscribeDetailFragment, bundle)
-        }
-        binding.rvSubscribeList.apply {
-            adapter = subscribeAdapter
-            layoutManager = LinearLayoutManager(context)
-        }
+        viewModel.loadSubscriptions()
     }
 
     private fun observeViewModel() {
         viewModel.subscriptions.observe(viewLifecycleOwner) { subscriptions ->
-            subscribeAdapter.updateData(subscriptions)
+            if (subscriptions.isNotEmpty()) {
+                updateTermCards()
+                updateTopTerm()
+            }
+        }
+    }
+
+    private fun updateTermCards() {
+        val amounts = viewModel.getSpendingByTerm()
+        val counts = viewModel.getCountByTerm()
+        val decimalFormat = DecimalFormat("#,###")
+
+        binding.tvWeekAmount.text = "${decimalFormat.format(amounts[Term.WEEK] ?: 0.0)}원"
+        binding.tvWeekCount.text = "${counts[Term.WEEK] ?: 0}개 구독 중"
+
+        binding.tvMonthAmount.text = "${decimalFormat.format(amounts[Term.MONTH] ?: 0.0)}원"
+        binding.tvMonthCount.text = "${counts[Term.MONTH] ?: 0}개 구독 중"
+
+        binding.tvYearAmount.text = "${decimalFormat.format(amounts[Term.YEAR] ?: 0.0)}원"
+        binding.tvYearCount.text = "${counts[Term.YEAR] ?: 0}개 구독 중"
+    }
+
+    private fun updateTopTerm() {
+        val topTermPair = viewModel.getSpendingByTerm().maxByOrNull { it.value }
+        if (topTermPair != null && topTermPair.value > 0) {
+            val formattedAmount = DecimalFormat("#,###").format(topTermPair.value)
+            binding.tvTopTermSummary.text = "이번 달은 ${topTermPair.key.displayName} 결제에\n가장 많은 금액(${formattedAmount}원)을 사용하셨어요!"
+        } else {
+            binding.tvTopTermSummary.text = "등록된 구독 정보가 없습니다."
         }
     }
 

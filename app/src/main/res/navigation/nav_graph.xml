@@ -43,6 +43,27 @@
         android:name="com.dalmoa.android.feature.auth.profile.SettingsFragment"
         android:label="환경 설정"
         tools:layout="@layout/member_fragment_settings">
+        <action
+            android:id="@+id/action_settings_to_noticeList"
+            app:destination="@id/noticeListFragment" />
+    </fragment>
+
+    <!-- 공지사항 목록 화면 -->
+    <fragment
+        android:id="@+id/noticeListFragment"
+        android:name="com.dalmoa.android.feature.notice.NoticeListFragment"
+        android:label="공지사항"
+        tools:layout="@layout/notice_fragment_list" />
+
+    <!-- 공지사항 상세 화면 -->
+    <fragment
+        android:id="@+id/noticeDetailFragment"
+        android:name="com.dalmoa.android.feature.notice.NoticeDetailFragment"
+        android:label="공지사항 상세"
+        tools:layout="@layout/notice_fragment_detail">
+        <argument
+            android:name="noticeId"
+            app:argType="long" />
     </fragment>
 
     <!-- 프로필 수정 화면 -->

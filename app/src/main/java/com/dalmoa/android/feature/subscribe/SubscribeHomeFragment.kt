@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dalmoa.android.R
 import com.dalmoa.android.adapter.SubscribeAdapter
 import com.dalmoa.android.core.ApiClient
-import com.dalmoa.android.core.TokenManager
 import com.dalmoa.android.databinding.SubscribeFragmentHomeBinding
 import com.dalmoa.android.model.SubCategory
 import com.dalmoa.android.model.Subscribe
@@ -42,20 +41,21 @@ class SubscribeHomeFragment : Fragment() {
         setupCategoryFilter()
         setupDateNavigation()
         observeViewModel()
-        
+
         binding.fabAdd.setOnClickListener {
             findNavController().navigate(R.id.subscribeAddFragment)
+        }
+
+        binding.cardSummary.setOnClickListener {
+            MonthlySpendingDialogFragment().show(childFragmentManager, "MonthlySpendingDialog")
         }
     }
 
     // 구독 추가 후 돌아왔을 때 데이터 갱신을 위해 onResume 사용
     override fun onResume() {
         super.onResume()
-        val tokenManager = TokenManager(requireContext())
-        val memberId = tokenManager.getMemberId()
-        if (memberId != -1L) {
-            viewModel.loadSubscriptions(memberId)
-        }
+        viewModel.loadSubscriptions()
+        viewModel.loadDashboard()
     }
 
     private fun setupRecyclerView() {
@@ -99,12 +99,43 @@ class SubscribeHomeFragment : Fragment() {
         viewModel.filteredSubscriptions.observe(viewLifecycleOwner) { subscriptions ->
             updateUI(subscriptions)
         }
-        
+
         // 날짜 변경 시 텍스트 업데이트
         viewModel.currentCalendar.observe(viewLifecycleOwner) { calendar ->
             val sdf = SimpleDateFormat("yyyy년 M월", Locale.KOREA)
             binding.tvCurrentMonth.text = sdf.format(calendar.time)
         }
+
+        viewModel.dashboard.observe(viewLifecycleOwner) { dashboard ->
+            updateCompareLastMonth(dashboard)
+        }
+    }
+
+    private fun updateCompareLastMonth(dashboard: com.dalmoa.android.model.SubscribeDashboard?) {
+        if (dashboard == null) {
+            binding.tvCompareLastMonth.text = "지난달 대비 -"
+            binding.tvCompareLastMonth.setTextColor(android.graphics.Color.parseColor("#666666"))
+            return
+        }
+
+        val decimalFormat = DecimalFormat("#,###")
+        val diffAmount = dashboard.diffAmount
+        val sign = if (diffAmount > 0) "+" else if (diffAmount < 0) "-" else ""
+        val amountText = decimalFormat.format(kotlin.math.abs(diffAmount))
+        val percentText = decimalFormat.format(kotlin.math.abs(dashboard.diffPercent))
+
+        binding.tvCompareLastMonth.text = if (diffAmount == 0.0) {
+            "지난달과 동일"
+        } else {
+            "지난달 대비 ${sign}${amountText}원 (${sign}${percentText}%)"
+        }
+        binding.tvCompareLastMonth.setTextColor(
+            when {
+                diffAmount > 0 -> android.graphics.Color.parseColor("#E53935")
+                diffAmount < 0 -> android.graphics.Color.parseColor("#1E88E5")
+                else -> android.graphics.Color.parseColor("#666666")
+            }
+        )
     }
 
     private fun updateUI(subscriptions: List<Subscribe>) {

@@ -40,6 +40,10 @@ class SettingsFragment : Fragment() {
         binding.btnWithdraw.setOnClickListener {
             Toast.makeText(requireContext(), "준비 중인 기능입니다.", Toast.LENGTH_SHORT).show()
         }
+
+        binding.btnNotice.setOnClickListener {
+            findNavController().navigate(R.id.action_settings_to_noticeList)
+        }
     }
 
     override fun onDestroyView() {

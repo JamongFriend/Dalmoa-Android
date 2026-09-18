@@ -8,7 +8,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    private val BASE_URL = "https://dalmoa.duckdns.org/"
+    // debug 빌드는 로컬 백엔드(10.0.2.2), release 빌드는 EC2 운영 서버를 바라봄 (app/build.gradle buildTypes 참고)
+    private val BASE_URL = BuildConfig.BASE_URL
 
     private var tokenManager: TokenManager? = null
 
